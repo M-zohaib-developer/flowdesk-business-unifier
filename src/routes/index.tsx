@@ -6,6 +6,7 @@ import {
   Kanban, Brain, TrendingUp, AlertTriangle, Clock, DollarSign, Layers,
   Globe, Activity, ChevronRight, Star, CircleDot, Wand2, Languages, Lock,
   Gauge, LineChart, PieChart, Building2, Rocket, PlayCircle, Plug,
+  Plug2, GitBranch, Cpu, Target, MoveRight,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
