@@ -851,16 +851,224 @@ function Footer() {
   );
 }
 
+/* ---------- Solution Overview (Problem → Platform → Outcome) ---------- */
+function Solution() {
+  const inputs = [
+    { i: MessageSquare, n: "Conversations" },
+    { i: Users, n: "Customers" },
+    { i: Receipt, n: "Invoices" },
+    { i: Kanban, n: "Projects" },
+    { i: FileSpreadsheet, n: "Spreadsheets" },
+    { i: Mail, n: "Email" },
+  ];
+  const outputs = [
+    { i: TrendingUp, n: "Revenue up", c: "emerald" },
+    { i: Clock, n: "Hours saved", c: "cyan" },
+    { i: Brain, n: "Smarter decisions", c: "violet" },
+    { i: Gauge, n: "Lower costs", c: "amber" },
+  ];
+  const pillars = [
+    { i: Plug2, t: "Unify", d: "Connect every tool and team. One source of truth replaces ten broken ones.", c: "violet" },
+    { i: Workflow, t: "Automate", d: "Turn repetitive busywork into background workflows that just run.", c: "cyan" },
+    { i: Brain, t: "Decide", d: "FlowDesk AI surfaces what matters and recommends the next best action.", c: "emerald" },
+  ];
+
+  return (
+    <section id="solutions" className="relative py-32">
+      <Container>
+        <SectionHeader
+          eyebrow="The solution"
+          title={<>One platform that turns <span className="text-gradient-violet">scattered data</span> into <span className="text-gradient">real outcomes.</span></>}
+          sub="FlowDesk ingests everything your business already runs on, organizes it into a single operating layer, and gives every team — and every AI agent — the same live view."
+        />
+
+        {/* Flow diagram: inputs → core → outputs */}
+        <div className="relative mt-20 overflow-hidden rounded-3xl glass-strong p-8 md:p-12">
+          <div className="absolute inset-0 bg-grid opacity-25" />
+          <div className="relative grid items-center gap-8 md:grid-cols-[1fr_auto_1.2fr_auto_1fr]">
+            {/* Inputs */}
+            <div className="space-y-2">
+              <div className="mb-3 font-mono text-[10px] uppercase tracking-wider text-rose">Messy inputs</div>
+              {inputs.map((t, i) => (
+                <div key={i} className="glass flex items-center gap-2 rounded-xl px-3 py-2">
+                  <t.i className="size-3.5 text-muted-foreground" />
+                  <span className="text-xs">{t.n}</span>
+                </div>
+              ))}
+            </div>
+
+            <MoveRight className="mx-auto hidden size-6 text-violet/60 md:block" />
+
+            {/* Core: FlowDesk OS */}
+            <div className="relative">
+              <div className="absolute -inset-6 rounded-3xl opacity-40 blur-2xl" style={{ background: "var(--gradient-primary)" }} />
+              <div className="relative rounded-3xl p-6 text-center" style={{ background: "var(--gradient-mesh)", border: "1px solid oklch(0.7 0.22 295 / 0.3)" }}>
+                <div className="mx-auto grid size-14 place-items-center rounded-2xl" style={{ background: "var(--gradient-primary)" }}>
+                  <Layers className="size-6 text-white" />
+                </div>
+                <div className="mt-3 font-display text-lg font-bold">FlowDesk OS</div>
+                <div className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Unified data + AI layer</div>
+                <div className="mt-4 grid grid-cols-2 gap-1.5 text-left">
+                  {pillars.map((p, i) => (
+                    <div key={i} className="glass rounded-lg p-2">
+                      <p.i className="size-3" style={{ color: `var(--${p.c})` }} />
+                      <div className="mt-1 text-[10px] font-semibold">{p.t}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <MoveRight className="mx-auto hidden size-6 text-emerald/60 md:block" />
+
+            {/* Outputs */}
+            <div className="space-y-2">
+              <div className="mb-3 font-mono text-[10px] uppercase tracking-wider text-emerald">Real outcomes</div>
+              {outputs.map((t, i) => (
+                <div key={i} className="glass-strong flex items-center gap-2 rounded-xl px-3 py-2" style={{ borderColor: `var(--${t.c})` }}>
+                  <t.i className="size-3.5" style={{ color: `var(--${t.c})` }} />
+                  <span className="text-xs font-semibold">{t.n}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Three pillars */}
+        <div className="mt-10 grid gap-4 md:grid-cols-3">
+          {pillars.map((p, i) => (
+            <div key={i} className="group relative overflow-hidden rounded-3xl glass p-7 transition hover:glow-violet">
+              <div className="grid size-11 place-items-center rounded-xl" style={{ background: `color-mix(in oklab, var(--${p.c}) 18%, transparent)` }}>
+                <p.i className="size-5" style={{ color: `var(--${p.c})` }} />
+              </div>
+              <div className="mt-5 font-display text-2xl font-bold">{p.t}</div>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.d}</p>
+            </div>
+          ))}
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+/* ---------- Customer Journey ---------- */
+function Journey() {
+  const steps = [
+    {
+      when: "Day 1",
+      title: "Connect in minutes",
+      desc: "Plug FlowDesk into Gmail, WhatsApp, Stripe, Shopify, QuickBooks, Slack and 200+ more. One click each. We pull years of history automatically.",
+      icon: Plug2,
+      c: "violet",
+      stat: "5 min",
+      statLabel: "average setup",
+    },
+    {
+      when: "Day 2",
+      title: "See your whole business",
+      desc: "Every customer, deal, invoice and project appears in one live workspace. No more chasing spreadsheets across five tabs.",
+      icon: BarChart3,
+      c: "cyan",
+      stat: "1 view",
+      statLabel: "instead of 10",
+    },
+    {
+      when: "Week 1",
+      title: "Automate the busywork",
+      desc: "Pre-built workflows kick in: invoices send themselves, follow-ups go out, reports compile overnight. Your team gets their week back.",
+      icon: Workflow,
+      c: "emerald",
+      stat: "22 hrs",
+      statLabel: "saved per person / week",
+    },
+    {
+      when: "Week 2",
+      title: "Let AI take the wheel",
+      desc: "FlowDesk AI starts predicting churn, flagging anomalies, drafting reports and answering customers in English, Urdu and Hindi.",
+      icon: Brain,
+      c: "violet",
+      stat: "41%",
+      statLabel: "of tickets auto-resolved",
+    },
+    {
+      when: "Month 1",
+      title: "Scale with clarity",
+      desc: "Cancel the old subscriptions. Onboard new hires in hours, not weeks. Run the business from one dashboard — and watch margins expand.",
+      icon: Rocket,
+      c: "amber",
+      stat: "62%",
+      statLabel: "lower software cost",
+    },
+  ];
+
+  return (
+    <section className="relative py-32">
+      <Container>
+        <SectionHeader
+          eyebrow="How it works"
+          title={<>From signup to <span className="text-gradient-violet">fully transformed</span> in 30 days.</>}
+          sub="Most teams unify their entire operation on FlowDesk within a month. Here's exactly what that looks like."
+        />
+
+        <div className="relative mt-20">
+          {/* Vertical timeline rail */}
+          <div className="absolute left-6 top-2 bottom-2 hidden w-px md:left-1/2 md:block" style={{ background: "linear-gradient(180deg, transparent, oklch(0.7 0.22 295 / 0.4), oklch(0.78 0.16 165 / 0.4), transparent)" }} />
+
+          <div className="space-y-8">
+            {steps.map((s, i) => {
+              const right = i % 2 === 1;
+              return (
+                <div key={i} className="relative grid items-center gap-6 md:grid-cols-2">
+                  {/* Node marker */}
+                  <div className="absolute left-6 hidden -translate-x-1/2 md:left-1/2 md:block">
+                    <div className="relative grid size-10 place-items-center rounded-full glass-strong">
+                      <div className="absolute inset-0 animate-pulse-glow rounded-full opacity-40" style={{ background: `var(--${s.c})` }} />
+                      <s.icon className="relative size-4" style={{ color: `var(--${s.c})` }} />
+                    </div>
+                  </div>
+
+                  {/* Card */}
+                  <div className={`${right ? "md:col-start-2 md:pl-12" : "md:pr-12 md:text-right"}`}>
+                    <div className="group relative overflow-hidden rounded-2xl glass p-7 transition hover:glow-violet">
+                      <div className={`flex items-center gap-2 ${right ? "" : "md:justify-end"}`}>
+                        <span className="font-mono text-[10px] uppercase tracking-wider" style={{ color: `var(--${s.c})` }}>{s.when}</span>
+                        <span className="text-[10px] text-muted-foreground">·</span>
+                        <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Step {i + 1}</span>
+                      </div>
+                      <h3 className="mt-2 font-display text-2xl font-bold">{s.title}</h3>
+                      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{s.desc}</p>
+                    </div>
+                  </div>
+
+                  {/* Stat */}
+                  <div className={`${right ? "md:col-start-1 md:row-start-1 md:pr-12 md:text-right" : "md:pl-12"}`}>
+                    <div className={`inline-flex flex-col gap-1 ${right ? "md:items-end" : ""}`}>
+                      <div className="font-display text-5xl font-bold text-gradient md:text-6xl">{s.stat}</div>
+                      <div className="text-xs text-muted-foreground">{s.statLabel}</div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
 function Landing() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       <Nav />
       <Hero />
       <ToolChaos />
+      <Solution />
+      <Journey />
       <WorkflowCompare />
-      <Transformation />
-      <Stories />
       <AISection />
+      <Stories />
+      <Transformation />
       <ROI />
       <Bento />
       <Compare />
