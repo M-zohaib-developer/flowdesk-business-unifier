@@ -208,11 +208,11 @@ function Hero() {
           <div className="animate-fade-up">
             <Eyebrow>Now with FlowDesk AI · v3.0</Eyebrow>
             <h1 className="mt-6 font-display text-5xl font-bold leading-[1.05] tracking-tight md:text-7xl">
-              Stop running your business across{" "}
-              <span className="text-gradient-violet">10 different tools.</span>
+              The operating system for{" "}
+              <span className="text-gradient-violet">your entire business.</span>
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
-              FlowDesk unifies projects, communication, analytics, automation, CRM, finance, reporting and AI insights into a single intelligent platform — so your team stops switching tabs and starts shipping outcomes.
+              FlowDesk replaces the 10+ disconnected tools your team juggles every day — CRM, projects, finance, analytics, communication and AI — with one intelligent platform. Less switching. Less guessing. More shipping.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Btn>Start free 14-day trial <ArrowRight className="size-4" /></Btn>
