@@ -356,16 +356,39 @@ function WorkflowCompare() {
             <h3 className="font-display text-2xl font-bold">Traditional business stack</h3>
             <p className="mt-2 text-sm text-muted-foreground">Every team has its own tools. Data fragments. Reports never reconcile.</p>
 
-            <div className="mt-8 grid grid-cols-3 gap-3">
-              {[MessageSquare, FileSpreadsheet, FolderOpen, Mail, Video, Kanban, Receipt, Users, BarChart3].map((I, i) => (
-                <div key={i} className="aspect-square rounded-xl border border-rose/20 bg-surface/40 p-3">
-                  <I className="size-4 text-muted-foreground" />
-                  <div className="mt-auto h-1 w-full rounded-full bg-rose/20 mt-3">
-                    <div className="h-full rounded-full bg-rose/40" style={{ width: `${20 + i * 8}%` }} />
+            <div className="mt-8 grid grid-cols-3 gap-2.5">
+              {[
+                { I: MessageSquare, n: "WhatsApp", u: "Chats" },
+                { I: FileSpreadsheet, n: "Sheets", u: "Reports" },
+                { I: FolderOpen, n: "Drive", u: "Files" },
+                { I: Mail, n: "Gmail", u: "Email" },
+                { I: Video, n: "Zoom", u: "Calls" },
+                { I: Kanban, n: "Trello", u: "Tasks" },
+                { I: Receipt, n: "QuickBooks", u: "Invoices" },
+                { I: Users, n: "HubSpot", u: "CRM" },
+                { I: BarChart3, n: "Looker", u: "BI" },
+              ].map(({ I, n, u }, i) => (
+                <div key={i} className="rounded-xl border border-rose/20 bg-surface/40 p-3">
+                  <div className="flex items-center gap-2">
+                    <div className="grid size-7 place-items-center rounded-md bg-rose/10">
+                      <I className="size-3.5 text-rose/80" />
+                    </div>
+                    <div className="min-w-0">
+                      <div className="truncate text-[11px] font-semibold text-foreground/90">{n}</div>
+                      <div className="truncate text-[9px] uppercase tracking-wider text-muted-foreground">{u}</div>
+                    </div>
+                  </div>
+                  <div className="mt-3 h-1 w-full rounded-full bg-rose/15">
+                    <div className="h-full rounded-full bg-rose/50" style={{ width: `${20 + i * 8}%` }} />
+                  </div>
+                  <div className="mt-1 flex items-center justify-between text-[9px] text-muted-foreground">
+                    <span>Siloed</span>
+                    <span className="text-rose/80">No sync</span>
                   </div>
                 </div>
               ))}
             </div>
+
             <div className="mt-6 space-y-2">
               {["Manual data entry", "Context switching", "Lost information", "Slow growth"].map(t => (
                 <div key={t} className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -1413,6 +1436,274 @@ function FAQ() {
   );
 }
 
+/* ---------- Enterprise Pain → Resolution ---------- */
+function EnterpriseIssues() {
+  const items = [
+    { i: Layers, issue: "Fragmented tool sprawl",
+      pain: "12–18 apps per team. Licenses overlap, data silos grow, IT loses visibility.",
+      fix: "FlowDesk replaces 10+ tools with one unified workspace and a single data model.",
+      stat: "−62% software cost", sIcon: DollarSign },
+    { i: Database, issue: "Disconnected data & reports",
+      pain: "Numbers never match. Finance, sales and ops each have their own version of truth.",
+      fix: "One real-time data layer feeds every dashboard, report and AI insight automatically.",
+      stat: "1 source of truth", sIcon: Activity },
+    { i: Clock, issue: "Manual, repetitive work",
+      pain: "Teams waste 22+ hours a week copy-pasting data between systems.",
+      fix: "Visual + AI-built workflows automate handoffs across CRM, support, finance and HR.",
+      stat: "22 hrs saved / wk", sIcon: Workflow },
+    { i: AlertTriangle, issue: "Slow, blind decisions",
+      pain: "Leadership waits days for reports. By then, the opportunity (or the churn) is gone.",
+      fix: "AI surfaces risks, forecasts revenue and recommends actions in real time.",
+      stat: "Decisions in minutes", sIcon: Brain },
+    { i: Shield, issue: "Compliance & security gaps",
+      pain: "Every extra SaaS app is another login, another breach surface, another audit headache.",
+      fix: "SOC 2, SSO, RBAC, regional residency and Private AI — built in, not bolted on.",
+      stat: "SOC 2 · ISO 27001", sIcon: Lock },
+    { i: Users, issue: "Poor cross-team collaboration",
+      pain: "Sales doesn't see support tickets. Finance doesn't see deals. Context dies in inboxes.",
+      fix: "Shared records and live activity timelines give every team the full customer picture.",
+      stat: "100% shared context", sIcon: GitBranch },
+  ];
+  return (
+    <section id="solutions" className="relative py-32">
+      <div className="absolute inset-0 -z-10 bg-mesh opacity-40" />
+      <Container>
+        <SectionHeader
+          eyebrow="Enterprise problems · solved"
+          title={<>The 6 problems killing <span className="text-gradient-violet">growing businesses</span> — and how FlowDesk ends them.</>}
+          sub="Every enterprise we talk to lives the same six pain points. Here's exactly how FlowDesk resolves each one."
+        />
+
+        <div className="mt-16 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {items.map((it, i) => (
+            <div key={i} className="group relative overflow-hidden rounded-3xl glass p-6 transition hover:glow-violet">
+              <div className="flex items-center gap-3">
+                <div className="grid size-11 place-items-center rounded-xl bg-rose/10">
+                  <it.i className="size-5 text-rose" />
+                </div>
+                <div>
+                  <div className="font-mono text-[10px] uppercase tracking-wider text-rose">Problem</div>
+                  <h3 className="font-display text-lg font-bold leading-tight">{it.issue}</h3>
+                </div>
+              </div>
+              <p className="mt-3 text-sm text-muted-foreground">{it.pain}</p>
+
+              <div className="my-5 flex items-center gap-2">
+                <div className="h-px flex-1 bg-gradient-to-r from-rose/40 to-violet/40" />
+                <MoveRight className="size-4 text-violet" />
+                <div className="h-px flex-1 bg-gradient-to-r from-violet/40 to-emerald/40" />
+              </div>
+
+              <div className="flex items-center gap-3">
+                <div className="grid size-11 place-items-center rounded-xl bg-emerald/10">
+                  <Check className="size-5 text-emerald" />
+                </div>
+                <div>
+                  <div className="font-mono text-[10px] uppercase tracking-wider text-emerald">FlowDesk solves it</div>
+                  <p className="text-sm font-semibold text-foreground">{it.fix}</p>
+                </div>
+              </div>
+
+              <div className="mt-5 inline-flex items-center gap-2 rounded-full glass-strong px-3 py-1.5">
+                <it.sIcon className="size-3.5 text-violet" />
+                <span className="font-mono text-[11px] font-semibold text-foreground/90">{it.stat}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+/* ---------- About Us ---------- */
+function About() {
+  const values = [
+    { i: Target, t: "Customer-obsessed", d: "Every feature ships only after a real team validates it solves a real pain." },
+    { i: Brain, t: "AI-native, not AI-bolted", d: "FlowDesk was built around a shared data brain from day one." },
+    { i: Shield, t: "Trust by default", d: "Security, privacy and reliability come on the free plan — not as an upsell." },
+    { i: Globe, t: "Built for the world", d: "Multilingual, multi-currency, multi-region — designed for global teams." },
+  ];
+  return (
+    <section id="about" className="relative py-32">
+      <Container>
+        <SectionHeader
+          eyebrow="About FlowDesk"
+          title={<>We're building the <span className="text-gradient-violet">operating system</span> the modern business deserves.</>}
+        />
+
+        <div className="mt-16 grid gap-10 lg:grid-cols-2 lg:items-center">
+          <div>
+            <div className="space-y-5 text-base leading-relaxed text-muted-foreground">
+              <p>FlowDesk started in 2022, when our founders — operators from Stripe, HubSpot and a Y Combinator startup — kept watching the same story play out: ambitious teams drowning in 15 disconnected SaaS apps, copy-pasting data, and flying blind into decisions.</p>
+              <p>We believed the answer wasn't another app. It was a new layer: one shared data model, one AI brain, one workspace — covering every department, in every language, for every region.</p>
+              <p>Today, <span className="font-semibold text-foreground">12,400+ businesses</span> across 40+ countries run their entire operation on FlowDesk — from 3-person startups to 5,000-person enterprises.</p>
+            </div>
+
+            <div className="mt-8 grid grid-cols-3 gap-4">
+              {[
+                { n: "2022", l: "Founded" },
+                { n: "40+", l: "Countries" },
+                { n: "$48M", l: "Series B" },
+              ].map((s, i) => (
+                <div key={i} className="rounded-2xl glass p-4 text-center">
+                  <div className="font-display text-2xl font-bold text-gradient">{s.n}</div>
+                  <div className="mt-1 text-[10px] uppercase tracking-wider text-muted-foreground">{s.l}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            {values.map((v, i) => (
+              <div key={i} className="rounded-2xl glass p-6 transition hover:glow-violet">
+                <div className="grid size-11 place-items-center rounded-xl bg-violet/15">
+                  <v.i className="size-5 text-violet" />
+                </div>
+                <div className="mt-4 font-display text-lg font-bold">{v.t}</div>
+                <p className="mt-2 text-sm text-muted-foreground">{v.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-16 rounded-3xl glass-strong p-8">
+          <div className="flex flex-wrap items-center justify-between gap-6">
+            <div>
+              <div className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Backed by</div>
+              <div className="mt-2 font-display text-xl font-bold">Sequoia · a16z · Tiger Global · Y Combinator</div>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="flex -space-x-2">
+                {[Building2, Rocket, Star, Users].map((I, i) => (
+                  <div key={i} className="grid size-10 place-items-center rounded-full glass-strong">
+                    <I className="size-4 text-violet" />
+                  </div>
+                ))}
+              </div>
+              <div className="text-sm text-muted-foreground">220+ teammates · remote-first</div>
+            </div>
+          </div>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+/* ---------- Contact ---------- */
+function Contact() {
+  const [form, setForm] = useState({ name: "", email: "", company: "", message: "" });
+  const [sent, setSent] = useState(false);
+  const channels = [
+    { i: Mail, t: "Email us", d: "hello@flowdesk.com", sub: "Replies within 4 business hours" },
+    { i: MessageSquare, t: "Live chat", d: "Chat with the team", sub: "24/7 in English, Urdu, Hindi" },
+    { i: Building2, t: "Enterprise sales", d: "sales@flowdesk.com", sub: "For teams of 50+" },
+    { i: Globe, t: "Offices", d: "San Francisco · London · Dubai · Karachi", sub: "Remote-first, globally distributed" },
+  ];
+  return (
+    <section id="contact" className="relative py-32">
+      <div className="absolute inset-0 -z-10 bg-dots opacity-30" />
+      <Container>
+        <SectionHeader
+          eyebrow="Contact"
+          title={<>Let's <span className="text-gradient-violet">talk.</span></>}
+          sub="Questions, a custom demo, or an enterprise rollout — pick the channel that works for you. A real human will respond."
+        />
+
+        <div className="mt-16 grid gap-8 lg:grid-cols-5">
+          <div className="lg:col-span-3">
+            <form
+              onSubmit={(e) => { e.preventDefault(); setSent(true); }}
+              className="rounded-3xl glass-strong p-8"
+            >
+              <div className="grid gap-5 sm:grid-cols-2">
+                <div>
+                  <label className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Name</label>
+                  <input
+                    required
+                    value={form.name}
+                    onChange={(e) => setForm({ ...form, name: e.target.value })}
+                    placeholder="Jane Cooper"
+                    className="mt-1.5 w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-violet focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Work email</label>
+                  <input
+                    required
+                    type="email"
+                    value={form.email}
+                    onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    placeholder="jane@company.com"
+                    className="mt-1.5 w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-violet focus:outline-none"
+                  />
+                </div>
+              </div>
+              <div className="mt-5">
+                <label className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Company</label>
+                <input
+                  value={form.company}
+                  onChange={(e) => setForm({ ...form, company: e.target.value })}
+                  placeholder="Acme Inc."
+                  className="mt-1.5 w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-violet focus:outline-none"
+                />
+              </div>
+              <div className="mt-5">
+                <label className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">How can we help?</label>
+                <textarea
+                  required
+                  rows={5}
+                  value={form.message}
+                  onChange={(e) => setForm({ ...form, message: e.target.value })}
+                  placeholder="Tell us about your team, the tools you're replacing, and what success looks like…"
+                  className="mt-1.5 w-full resize-none rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-violet focus:outline-none"
+                />
+              </div>
+              <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <Lock className="size-3.5 text-emerald" /> Encrypted & SOC 2 compliant
+                </div>
+                <Btn type="submit" className="px-6 py-3">
+                  {sent ? <><Check className="size-4" /> Message sent</> : <>Send message <ArrowRight className="size-4" /></>}
+                </Btn>
+              </div>
+              {sent && (
+                <div className="mt-4 rounded-xl bg-emerald/10 px-4 py-3 text-sm text-emerald">
+                  Thanks {form.name || "there"} — we'll be in touch within 4 business hours.
+                </div>
+              )}
+            </form>
+          </div>
+
+          <div className="space-y-4 lg:col-span-2">
+            {channels.map((c, i) => (
+              <div key={i} className="rounded-2xl glass p-5 transition hover:bg-white/[0.04]">
+                <div className="flex items-start gap-4">
+                  <div className="grid size-11 place-items-center rounded-xl bg-violet/15">
+                    <c.i className="size-5 text-violet" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">{c.t}</div>
+                    <div className="mt-1 font-semibold text-foreground">{c.d}</div>
+                    <div className="mt-1 text-xs text-muted-foreground">{c.sub}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+            <div className="rounded-2xl glass-strong p-5">
+              <div className="flex items-center gap-2 text-emerald">
+                <span className="size-2 animate-pulse-glow rounded-full bg-emerald" />
+                <span className="font-mono text-[10px] uppercase tracking-wider">All systems normal</span>
+              </div>
+              <div className="mt-2 text-sm text-muted-foreground">99.99% uptime over the last 90 days.</div>
+            </div>
+          </div>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
 function Landing() {
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -1420,6 +1711,7 @@ function Landing() {
       <Hero />
       <StatsBand />
       <ToolChaos />
+      <EnterpriseIssues />
       <Solution />
       <Journey />
       <WorkflowCompare />
@@ -1436,6 +1728,8 @@ function Landing() {
       <Compare />
       <Pricing />
       <FAQ />
+      <About />
+      <Contact />
       <FinalCTA />
       <Footer />
     </main>
