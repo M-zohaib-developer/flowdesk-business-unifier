@@ -1057,22 +1057,385 @@ function Journey() {
   );
 }
 
+/* ---------- AI Agents Grid ---------- */
+function AIAgents() {
+  const agents = [
+    { i: TrendingUp, name: "Revenue Agent", role: "Sales & Pipeline", c: "violet",
+      tasks: ["Scores leads in real time", "Drafts personalized follow-ups", "Forecasts quarterly revenue"],
+      sample: "3 deals worth $48K are stuck in 'Proposal' for 12+ days. Want me to draft nudge emails?" },
+    { i: MessageSquare, name: "Support Agent", role: "Customer Service", c: "cyan",
+      tasks: ["Resolves 41% of tickets unaided", "Detects sentiment & churn risk", "Replies in English, Urdu, Hindi"],
+      sample: "Auto-resolved 87 tickets today. 4 high-risk conversations escalated to humans." },
+    { i: Receipt, name: "Finance Agent", role: "Books & Cashflow", c: "emerald",
+      tasks: ["Categorizes every expense", "Flags anomalies & duplicates", "Predicts 90-day cashflow"],
+      sample: "Unusual $2,340 vendor charge from 'CloudHost' — 4× last month's average. Hold payment?" },
+    { i: Users, name: "People Agent", role: "HR & Hiring", c: "violet",
+      tasks: ["Screens resumes against role rubric", "Schedules interviews automatically", "Drafts performance reviews"],
+      sample: "12 of 84 applicants match Senior Engineer criteria. Top match: 96% fit. Schedule call?" },
+    { i: Wand2, name: "Marketing Agent", role: "Campaigns & Content", c: "cyan",
+      tasks: ["Generates campaigns from a brief", "A/B tests subject lines live", "Re-allocates budget by ROI"],
+      sample: "Reallocated $1.2K from Facebook to WhatsApp. Projected lift: +38% conversions this week." },
+    { i: Workflow, name: "Ops Agent", role: "Workflows & Tasks", c: "emerald",
+      tasks: ["Builds automations from plain English", "Routes work to the right person", "Watches SLAs 24/7"],
+      sample: "Built a 6-step refund workflow from your message. Saving ~9 hrs/week. Activate?" },
+  ];
+  return (
+    <section id="agents" className="relative py-32">
+      <div className="absolute inset-0 -z-10 bg-mesh opacity-40" />
+      <Container>
+        <SectionHeader
+          eyebrow="AI Agents"
+          title={<>Six AI teammates that <span className="text-gradient-violet">actually do the work.</span></>}
+          sub="Not chatbots. Not co-pilots. Real autonomous agents that read your data, take actions, and report back — across every department."
+        />
+        <div className="mt-16 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {agents.map((a, i) => (
+            <div key={i} className="group relative overflow-hidden rounded-3xl glass p-6 transition hover:glow-violet">
+              <div className="absolute -right-10 -top-10 size-32 rounded-full opacity-10 blur-2xl transition group-hover:opacity-30" style={{ background: `var(--${a.c})` }} />
+              <div className="relative flex items-start justify-between">
+                <div className="grid size-12 place-items-center rounded-xl glass-strong">
+                  <a.i className="size-5" style={{ color: `var(--${a.c})` }} />
+                </div>
+                <span className="inline-flex items-center gap-1.5 rounded-full glass px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-emerald">
+                  <span className="size-1.5 animate-pulse-glow rounded-full bg-emerald" />Active
+                </span>
+              </div>
+              <h3 className="mt-5 font-display text-xl font-bold">{a.name}</h3>
+              <p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">{a.role}</p>
+              <ul className="mt-4 space-y-2">
+                {a.tasks.map((t, j) => (
+                  <li key={j} className="flex gap-2 text-xs text-muted-foreground">
+                    <Check className="mt-0.5 size-3.5 shrink-0 text-emerald" /><span>{t}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-5 rounded-xl border border-white/5 bg-black/30 p-3">
+                <div className="flex items-center gap-1.5">
+                  <Sparkles className="size-3 text-violet" />
+                  <span className="font-mono text-[10px] uppercase tracking-wider text-violet">Latest insight</span>
+                </div>
+                <p className="mt-1.5 text-xs leading-relaxed text-foreground/80">{a.sample}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+/* ---------- AI Playground / Prompt-to-Action ---------- */
+function AIPlayground() {
+  const [step, setStep] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setStep(s => (s + 1) % 4), 2200);
+    return () => clearInterval(t);
+  }, []);
+  const actions = [
+    { i: Database, t: "Querying CRM, invoices & support logs", c: "cyan" },
+    { i: Brain, t: "Correlating churn signals across 14 accounts", c: "violet" },
+    { i: Workflow, t: "Drafting retention workflow + emails", c: "emerald" },
+    { i: Check, t: "Ready to deploy — awaiting approval", c: "emerald" },
+  ];
+  return (
+    <section className="relative overflow-hidden py-32">
+      <Container>
+        <SectionHeader
+          eyebrow="Prompt → Action"
+          title={<>Ask in plain English. Watch <span className="text-gradient-violet">work get done.</span></>}
+          sub="FlowDesk AI doesn't just answer. It reasons across your data, builds a plan, and executes — with you in the loop."
+        />
+        <div className="mt-16 grid gap-6 lg:grid-cols-5">
+          {/* Prompt side */}
+          <div className="lg:col-span-2">
+            <div className="rounded-3xl glass-strong p-6">
+              <div className="flex items-center gap-2">
+                <div className="size-2 rounded-full bg-rose" />
+                <div className="size-2 rounded-full" style={{ background: "oklch(0.85 0.18 90)" }} />
+                <div className="size-2 rounded-full bg-emerald" />
+                <span className="ml-2 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">flowdesk · ai</span>
+              </div>
+              <div className="mt-5 space-y-4">
+                <div className="ml-auto max-w-[90%] rounded-2xl rounded-tr-sm bg-violet/15 p-4 text-sm">
+                  Find customers likely to churn this month and build a retention plan.
+                </div>
+                <div className="max-w-[95%] rounded-2xl rounded-tl-sm glass p-4 text-sm">
+                  <div className="flex items-center gap-2 text-xs text-violet">
+                    <Brain className="size-3.5" /> Reasoning across 6 data sources…
+                  </div>
+                  <div className="mt-3 space-y-2">
+                    {actions.map((a, i) => (
+                      <div key={i} className={`flex items-center gap-2 rounded-lg px-2 py-1.5 transition ${i === step ? "glass-strong" : "opacity-50"}`}>
+                        <a.i className="size-3.5" style={{ color: `var(--${a.c})` }} />
+                        <span className="text-xs">{a.t}</span>
+                        {i < step && <Check className="ml-auto size-3.5 text-emerald" />}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <Btn className="px-3 py-2 text-xs"><Check className="size-3.5" />Approve & run</Btn>
+                  <Btn variant="ghost" className="px-3 py-2 text-xs">Edit plan</Btn>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Output side */}
+          <div className="lg:col-span-3">
+            <div className="grid gap-4 sm:grid-cols-2">
+              {[
+                { i: AlertTriangle, c: "rose", t: "14 at-risk accounts", d: "Combined ARR: $186K. Top risk: Acme Co (92%)." },
+                { i: Mail, c: "violet", t: "12 personalized emails", d: "Drafted in customer's preferred language and tone." },
+                { i: Gauge, c: "cyan", t: "3-step retention flow", d: "Discount → check-in call → success plan handoff." },
+                { i: LineChart, c: "emerald", t: "Projected save", d: "Estimated $134K ARR retained if launched today." },
+              ].map((o, i) => (
+                <div key={i} className="rounded-2xl glass p-5">
+                  <div className="grid size-10 place-items-center rounded-xl glass-strong">
+                    <o.i className="size-4" style={{ color: `var(--${o.c})` }} />
+                  </div>
+                  <div className="mt-4 font-semibold">{o.t}</div>
+                  <div className="mt-1 text-xs text-muted-foreground">{o.d}</div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 rounded-2xl glass p-5">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Cpu className="size-4 text-violet" />
+                  <span className="text-sm font-semibold">Model routing</span>
+                </div>
+                <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">auto-optimized</span>
+              </div>
+              <div className="mt-3 grid grid-cols-3 gap-2 text-center">
+                {[
+                  { m: "Reasoning", v: "Claude 3.5" },
+                  { m: "Drafting", v: "GPT-4o" },
+                  { m: "Local / PII", v: "Llama 3.1" },
+                ].map((m, i) => (
+                  <div key={i} className="rounded-lg border border-white/5 bg-black/30 p-2">
+                    <div className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">{m.m}</div>
+                    <div className="text-xs font-semibold">{m.v}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+/* ---------- AI Capabilities Matrix ---------- */
+function AICapabilities() {
+  const rows = [
+    { area: "Sales", cap: "Lead scoring, deal coaching, forecast", icon: TrendingUp, save: "12 hrs/wk" },
+    { area: "Support", cap: "Auto-replies, sentiment, escalation", icon: MessageSquare, save: "41% tickets" },
+    { area: "Finance", cap: "Categorization, anomaly, cashflow", icon: Receipt, save: "9 hrs/wk" },
+    { area: "Marketing", cap: "Campaign drafts, A/B, budget shifts", icon: Wand2, save: "+38% ROAS" },
+    { area: "HR", cap: "Screening, scheduling, reviews", icon: Users, save: "7 hrs/wk" },
+    { area: "Operations", cap: "Workflow generation, SLA watch", icon: Workflow, save: "22 hrs/wk" },
+  ];
+  return (
+    <section className="relative py-24">
+      <Container>
+        <SectionHeader
+          eyebrow="AI everywhere"
+          title={<>One AI brain. <span className="text-gradient-violet">Every module.</span></>}
+          sub="The same intelligence powers every corner of FlowDesk — so context, language, and decisions follow your work."
+        />
+        <div className="mt-14 overflow-hidden rounded-3xl glass-strong">
+          <div className="grid grid-cols-12 border-b border-white/5 bg-white/[0.02] px-6 py-3 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+            <div className="col-span-3">Department</div>
+            <div className="col-span-7">AI capability</div>
+            <div className="col-span-2 text-right">Avg. impact</div>
+          </div>
+          {rows.map((r, i) => (
+            <div key={i} className="grid grid-cols-12 items-center border-b border-white/5 px-6 py-4 transition last:border-0 hover:bg-white/[0.03]">
+              <div className="col-span-3 flex items-center gap-3">
+                <div className="grid size-9 place-items-center rounded-lg glass">
+                  <r.icon className="size-4 text-violet" />
+                </div>
+                <span className="font-semibold">{r.area}</span>
+              </div>
+              <div className="col-span-7 text-sm text-muted-foreground">{r.cap}</div>
+              <div className="col-span-2 text-right font-mono text-sm text-emerald">{r.save}</div>
+            </div>
+          ))}
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+/* ---------- Integrations ---------- */
+function Integrations() {
+  const tools = [
+    "WhatsApp","Slack","Gmail","Outlook","Stripe","PayPal","HubSpot","Salesforce",
+    "Notion","Zoom","Google Drive","Dropbox","Shopify","QuickBooks","Xero","Zapier",
+    "Meta Ads","Google Ads","Twilio","Mailchimp","Asana","Jira",
+  ];
+  return (
+    <section className="relative py-28">
+      <Container>
+        <SectionHeader
+          eyebrow="Integrations"
+          title={<>Plays nicely with <span className="text-gradient-violet">everything you already use.</span></>}
+          sub="200+ native integrations. Two-way sync, real-time webhooks, no middleware. Bring your stack — FlowDesk becomes the layer that ties it together."
+        />
+        <div className="mt-14 grid grid-cols-3 gap-3 md:grid-cols-6">
+          {tools.map((t, i) => (
+            <div key={i} className="group flex items-center justify-center rounded-2xl glass px-3 py-5 transition hover:glow-violet">
+              <div className="flex items-center gap-2">
+                <div className="grid size-7 place-items-center rounded-md glass-strong">
+                  <Plug className="size-3.5 text-violet" />
+                </div>
+                <span className="text-xs font-semibold text-foreground/80 group-hover:text-foreground">{t}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+        <p className="mt-8 text-center text-sm text-muted-foreground">
+          Don't see yours? Build a custom integration in minutes with our visual workflow builder.
+        </p>
+      </Container>
+    </section>
+  );
+}
+
+/* ---------- Security & Trust ---------- */
+function Security() {
+  const items = [
+    { i: Shield, t: "SOC 2 Type II", d: "Audited annually. Reports on request." },
+    { i: Lock, t: "End-to-end encryption", d: "AES-256 at rest, TLS 1.3 in transit." },
+    { i: Globe, t: "Regional data residency", d: "EU, US, India, UAE — your data, your region." },
+    { i: Brain, t: "Private AI mode", d: "PII never leaves your tenant. Local models for sensitive workloads." },
+    { i: Activity, t: "99.99% uptime SLA", d: "Multi-region failover, real-time status." },
+    { i: Users, t: "Granular RBAC + SSO", d: "SAML, SCIM, Okta, Azure AD, Google Workspace." },
+  ];
+  return (
+    <section className="relative py-28">
+      <div className="absolute inset-0 -z-10 bg-dots opacity-30" />
+      <Container>
+        <SectionHeader
+          eyebrow="Enterprise-grade"
+          title={<>Built for teams that <span className="text-gradient-violet">can't afford to gamble.</span></>}
+          sub="Security, privacy and reliability are not an upgrade tier. They ship with every plan."
+        />
+        <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {items.map((it, i) => (
+            <div key={i} className="rounded-2xl glass p-6 transition hover:bg-white/[0.04]">
+              <div className="grid size-11 place-items-center rounded-xl bg-violet/15">
+                <it.i className="size-5 text-violet" />
+              </div>
+              <div className="mt-4 font-display text-lg font-bold">{it.t}</div>
+              <div className="mt-1.5 text-sm text-muted-foreground">{it.d}</div>
+            </div>
+          ))}
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+/* ---------- Stats Band ---------- */
+function StatsBand() {
+  const stats = [
+    { n: "12,400+", l: "Businesses unified" },
+    { n: "62%", l: "Avg. software cost cut" },
+    { n: "22 hrs", l: "Saved per employee / week" },
+    { n: "41%", l: "Tickets auto-resolved" },
+    { n: "4.9 / 5", l: "G2 customer rating" },
+  ];
+  return (
+    <section className="py-20">
+      <Container>
+        <div className="rounded-3xl glass-strong p-8 md:p-12">
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
+            {stats.map((s, i) => (
+              <div key={i} className="text-center">
+                <div className="font-display text-4xl font-bold text-gradient md:text-5xl">{s.n}</div>
+                <div className="mt-2 text-xs uppercase tracking-wider text-muted-foreground">{s.l}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+/* ---------- FAQ ---------- */
+function FAQ() {
+  const [open, setOpen] = useState<number | null>(0);
+  const qs = [
+    { q: "How is FlowDesk different from a 'no-code' or 'all-in-one' tool?",
+      a: "Most 'all-in-one' tools bundle separate apps with shared login. FlowDesk is one data model — your CRM, support, projects, finance and analytics share the same records. That's why AI works: it has full context, not pieces." },
+    { q: "Do I have to migrate everything on day one?",
+      a: "No. Start with one module. FlowDesk's two-way sync keeps your existing tools in lockstep so you can adopt module-by-module with zero downtime." },
+    { q: "Is the AI safe to use on real business data?",
+      a: "Yes. Your data is isolated per tenant, never used to train shared models, and Private AI mode runs sensitive workloads on local models. SOC 2 Type II and regional residency are standard." },
+    { q: "Which languages does the AI support?",
+      a: "FlowDesk AI is multilingual by default with first-class support for English, Urdu and Hindi — including support replies, reports and voice. 20+ other languages are supported." },
+    { q: "How long does setup take?",
+      a: "Most teams are live in under a week. Templates for common workflows (sales, support, hiring, finance) get you to value on day one." },
+    { q: "What happens to my data if I leave?",
+      a: "Full export at any time — schema-preserved JSON, CSV and SQL. No vendor lock-in, no hostage data." },
+  ];
+  return (
+    <section className="py-28">
+      <Container>
+        <SectionHeader
+          eyebrow="Questions"
+          title={<>Things teams ask <span className="text-gradient-violet">before they switch.</span></>}
+        />
+        <div className="mx-auto mt-12 max-w-3xl space-y-3">
+          {qs.map((it, i) => {
+            const isOpen = open === i;
+            return (
+              <button
+                key={i}
+                onClick={() => setOpen(isOpen ? null : i)}
+                className="w-full rounded-2xl glass p-5 text-left transition hover:bg-white/[0.04]"
+              >
+                <div className="flex items-center justify-between gap-4">
+                  <span className="font-semibold">{it.q}</span>
+                  <ChevronRight className={`size-4 shrink-0 text-muted-foreground transition ${isOpen ? "rotate-90 text-violet" : ""}`} />
+                </div>
+                {isOpen && <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{it.a}</p>}
+              </button>
+            );
+          })}
+        </div>
+      </Container>
+    </section>
+  );
+}
+
 function Landing() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       <Nav />
       <Hero />
+      <StatsBand />
       <ToolChaos />
       <Solution />
       <Journey />
       <WorkflowCompare />
       <AISection />
+      <AIAgents />
+      <AIPlayground />
+      <AICapabilities />
       <Stories />
       <Transformation />
+      <Integrations />
       <ROI />
       <Bento />
+      <Security />
       <Compare />
       <Pricing />
+      <FAQ />
       <FinalCTA />
       <Footer />
     </main>
