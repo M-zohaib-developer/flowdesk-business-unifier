@@ -356,16 +356,39 @@ function WorkflowCompare() {
             <h3 className="font-display text-2xl font-bold">Traditional business stack</h3>
             <p className="mt-2 text-sm text-muted-foreground">Every team has its own tools. Data fragments. Reports never reconcile.</p>
 
-            <div className="mt-8 grid grid-cols-3 gap-3">
-              {[MessageSquare, FileSpreadsheet, FolderOpen, Mail, Video, Kanban, Receipt, Users, BarChart3].map((I, i) => (
-                <div key={i} className="aspect-square rounded-xl border border-rose/20 bg-surface/40 p-3">
-                  <I className="size-4 text-muted-foreground" />
-                  <div className="mt-auto h-1 w-full rounded-full bg-rose/20 mt-3">
-                    <div className="h-full rounded-full bg-rose/40" style={{ width: `${20 + i * 8}%` }} />
+            <div className="mt-8 grid grid-cols-3 gap-2.5">
+              {[
+                { I: MessageSquare, n: "WhatsApp", u: "Chats" },
+                { I: FileSpreadsheet, n: "Sheets", u: "Reports" },
+                { I: FolderOpen, n: "Drive", u: "Files" },
+                { I: Mail, n: "Gmail", u: "Email" },
+                { I: Video, n: "Zoom", u: "Calls" },
+                { I: Kanban, n: "Trello", u: "Tasks" },
+                { I: Receipt, n: "QuickBooks", u: "Invoices" },
+                { I: Users, n: "HubSpot", u: "CRM" },
+                { I: BarChart3, n: "Looker", u: "BI" },
+              ].map(({ I, n, u }, i) => (
+                <div key={i} className="rounded-xl border border-rose/20 bg-surface/40 p-3">
+                  <div className="flex items-center gap-2">
+                    <div className="grid size-7 place-items-center rounded-md bg-rose/10">
+                      <I className="size-3.5 text-rose/80" />
+                    </div>
+                    <div className="min-w-0">
+                      <div className="truncate text-[11px] font-semibold text-foreground/90">{n}</div>
+                      <div className="truncate text-[9px] uppercase tracking-wider text-muted-foreground">{u}</div>
+                    </div>
+                  </div>
+                  <div className="mt-3 h-1 w-full rounded-full bg-rose/15">
+                    <div className="h-full rounded-full bg-rose/50" style={{ width: `${20 + i * 8}%` }} />
+                  </div>
+                  <div className="mt-1 flex items-center justify-between text-[9px] text-muted-foreground">
+                    <span>Siloed</span>
+                    <span className="text-rose/80">No sync</span>
                   </div>
                 </div>
               ))}
             </div>
+
             <div className="mt-6 space-y-2">
               {["Manual data entry", "Context switching", "Lost information", "Slow growth"].map(t => (
                 <div key={t} className="flex items-center gap-2 text-sm text-muted-foreground">
