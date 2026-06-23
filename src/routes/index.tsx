@@ -1773,8 +1773,8 @@ function Contact() {
             <div className="grid grid-cols-2 gap-3">
               {channels.map((c, i) => (
                 <div key={i} className="group rounded-2xl glass p-4 transition hover:glow-violet">
-                  <div className={`grid size-9 place-items-center rounded-xl bg-${c.c}/15`}>
-                    <c.i className={`size-4 text-${c.c}`} />
+                  <div className="grid size-9 place-items-center rounded-xl" style={{ backgroundColor: `oklch(from var(--${c.c}) l c h / 0.15)` }}>
+                    <c.i className="size-4" style={{ color: `var(--${c.c})` }} />
                   </div>
                   <div className="mt-3 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">{c.t}</div>
                   <div className="mt-0.5 truncate text-sm font-semibold">{c.d}</div>
