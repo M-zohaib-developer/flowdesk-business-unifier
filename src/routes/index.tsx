@@ -1482,7 +1482,7 @@ function EnterpriseIssues() {
       stat: "100% shared context", sIcon: GitBranch },
   ];
   return (
-    <section id="solutions" className="relative py-32">
+    <section id="enterprise" className="relative py-32">
       <div className="absolute inset-0 -z-10 bg-mesh opacity-40" />
       <Container>
         <SectionHeader
