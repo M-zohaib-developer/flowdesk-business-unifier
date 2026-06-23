@@ -857,8 +857,8 @@ function FinalCTA() {
             Join 4,200+ teams who consolidated their entire operation onto FlowDesk in under a week.
           </p>
           <div className="mt-10 flex flex-wrap justify-center gap-3">
-            <Btn>Start your free trial <ArrowRight className="size-4" /></Btn>
-            <Btn variant="ghost"><PlayCircle className="size-4" /> Book a 20-min demo</Btn>
+            <Btn onClick={() => scrollToId("pricing")}>Start your free trial <ArrowRight className="size-4" /></Btn>
+            <Btn variant="ghost" onClick={() => scrollToId("contact")}><PlayCircle className="size-4" /> Book a 20-min demo</Btn>
           </div>
           <div className="mt-8 text-xs text-muted-foreground">No credit card required · Cancel anytime · SOC 2 Type II</div>
         </div>
