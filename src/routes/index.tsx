@@ -1609,115 +1609,210 @@ function About() {
 
 /* ---------- Contact ---------- */
 function Contact() {
-  const [form, setForm] = useState({ name: "", email: "", company: "", message: "" });
+  const [form, setForm] = useState({ name: "", email: "", company: "", teamSize: "11–50", interest: "Book a demo", message: "" });
   const [sent, setSent] = useState(false);
+  const [slot, setSlot] = useState("Tue · 10:00");
+
   const channels = [
-    { i: Mail, t: "Email us", d: "hello@flowdesk.com", sub: "Replies within 4 business hours" },
-    { i: MessageSquare, t: "Live chat", d: "Chat with the team", sub: "24/7 in English, Urdu, Hindi" },
-    { i: Building2, t: "Enterprise sales", d: "sales@flowdesk.com", sub: "For teams of 50+" },
-    { i: Globe, t: "Offices", d: "San Francisco · London · Dubai · Karachi", sub: "Remote-first, globally distributed" },
+    { i: Mail, t: "Email us", d: "hello@flowdesk.com", sub: "Replies within 4 business hours", c: "violet" },
+    { i: MessageSquare, t: "Live chat", d: "Chat with the team", sub: "24/7 in English, Urdu, Hindi", c: "emerald" },
+    { i: Building2, t: "Enterprise sales", d: "sales@flowdesk.com", sub: "For teams of 50+", c: "indigo" },
+    { i: Globe, t: "Global offices", d: "SF · London · Dubai · Karachi", sub: "Remote-first, distributed", c: "amber" },
   ];
+
+  const interests = ["Book a demo", "Pricing", "Migration help", "Enterprise / SSO", "Partnership"];
+  const slots = ["Mon · 14:00", "Tue · 10:00", "Tue · 16:00", "Wed · 11:00", "Thu · 09:00", "Fri · 15:00"];
+  const next = [
+    { i: Mail, t: "We reply in 4 hrs", d: "A real human, never a bot, reads every form." },
+    { i: PlayCircle, t: "20-min discovery call", d: "We map your current stack and quantify the cost." },
+    { i: Rocket, t: "Tailored demo + ROI", d: "Live demo on your data with savings projection." },
+  ];
+
   return (
-    <section id="contact" className="relative py-32">
-      <div className="absolute inset-0 -z-10 bg-dots opacity-30" />
+    <section id="contact" className="relative overflow-hidden py-32">
+      <div className="absolute inset-0 -z-10 bg-mesh opacity-50" />
+      <div className="absolute inset-0 -z-10 bg-dots opacity-20" />
+      <div className="absolute -top-32 left-1/2 -z-10 size-[40rem] -translate-x-1/2 rounded-full opacity-30 blur-3xl" style={{ background: "var(--gradient-primary)" }} />
+
       <Container>
         <SectionHeader
-          eyebrow="Contact"
-          title={<>Let's <span className="text-gradient-violet">talk.</span></>}
-          sub="Questions, a custom demo, or an enterprise rollout — pick the channel that works for you. A real human will respond."
+          eyebrow="Talk to us"
+          title={<>Book a demo. <span className="text-gradient-violet">See FlowDesk on your data.</span></>}
+          sub="Tell us about your stack — we'll show you exactly how FlowDesk replaces it, in a 20-minute live walkthrough."
         />
 
-        <div className="mt-16 grid gap-8 lg:grid-cols-5">
-          <div className="lg:col-span-3">
-            <form
-              onSubmit={(e) => { e.preventDefault(); setSent(true); }}
-              className="rounded-3xl glass-strong p-8"
-            >
-              <div className="grid gap-5 sm:grid-cols-2">
+        {/* trust strip */}
+        <div className="mx-auto mt-8 flex max-w-3xl flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-muted-foreground">
+          <div className="flex items-center gap-1.5"><Check className="size-3.5 text-emerald" /> No sales pressure</div>
+          <div className="flex items-center gap-1.5"><Check className="size-3.5 text-emerald" /> Custom ROI in 24 hrs</div>
+          <div className="flex items-center gap-1.5"><Check className="size-3.5 text-emerald" /> NDAs on request</div>
+          <div className="flex items-center gap-1.5"><Lock className="size-3.5 text-emerald" /> SOC 2 · GDPR</div>
+        </div>
+
+        <div className="mt-16 grid gap-8 lg:grid-cols-12">
+          {/* Form card */}
+          <div className="lg:col-span-7">
+            <div className="relative overflow-hidden rounded-[2rem] glass-strong p-8 md:p-10">
+              <div className="pointer-events-none absolute -right-24 -top-24 size-64 rounded-full opacity-30 blur-3xl" style={{ background: "var(--gradient-primary)" }} />
+              <div className="flex items-center gap-2">
+                <div className="grid size-9 place-items-center rounded-xl bg-violet/15"><Sparkles className="size-4 text-violet" /></div>
                 <div>
-                  <label className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Name</label>
-                  <input
-                    required
-                    value={form.name}
-                    onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    placeholder="Jane Cooper"
-                    className="mt-1.5 w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-violet focus:outline-none"
+                  <div className="font-display text-lg font-bold">Book your custom demo</div>
+                  <div className="text-xs text-muted-foreground">Takes 30 seconds. Live in 20 minutes.</div>
+                </div>
+              </div>
+
+              <form
+                onSubmit={(e) => { e.preventDefault(); setSent(true); }}
+                className="mt-7"
+              >
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <Field label="Full name">
+                    <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Jane Cooper" className={inputCls} />
+                  </Field>
+                  <Field label="Work email">
+                    <input required type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="jane@company.com" className={inputCls} />
+                  </Field>
+                  <Field label="Company">
+                    <input value={form.company} onChange={(e) => setForm({ ...form, company: e.target.value })} placeholder="Acme Inc." className={inputCls} />
+                  </Field>
+                  <Field label="Team size">
+                    <select value={form.teamSize} onChange={(e) => setForm({ ...form, teamSize: e.target.value })} className={inputCls}>
+                      {["1–10", "11–50", "51–200", "201–1,000", "1,000+"].map(s => <option key={s} className="bg-background">{s}</option>)}
+                    </select>
+                  </Field>
+                </div>
+
+                <div className="mt-5">
+                  <div className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">I'm interested in</div>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {interests.map(t => (
+                      <button
+                        type="button"
+                        key={t}
+                        onClick={() => setForm({ ...form, interest: t })}
+                        className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition ${form.interest === t ? "text-white glow-violet" : "glass text-muted-foreground hover:text-foreground"}`}
+                        style={form.interest === t ? { background: "var(--gradient-primary)" } : undefined}
+                      >
+                        {t}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-5">
+                  <div className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Pick a slot (your timezone)</div>
+                  <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3">
+                    {slots.map(s => (
+                      <button
+                        type="button"
+                        key={s}
+                        onClick={() => setSlot(s)}
+                        className={`rounded-xl border px-3 py-2.5 text-xs font-semibold transition ${slot === s ? "border-violet bg-violet/10 text-foreground" : "border-white/10 bg-black/20 text-muted-foreground hover:border-white/20 hover:text-foreground"}`}
+                      >
+                        {s}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <Field label="What are you trying to solve?" className="mt-5">
+                  <textarea
+                    rows={4}
+                    value={form.message}
+                    onChange={(e) => setForm({ ...form, message: e.target.value })}
+                    placeholder="Tell us about your team, the tools you're replacing, and what success looks like…"
+                    className={`${inputCls} resize-none`}
                   />
+                </Field>
+
+                <div className="mt-7 flex flex-wrap items-center justify-between gap-4">
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <Lock className="size-3.5 text-emerald" /> Encrypted in transit · SOC 2 Type II
+                  </div>
+                  <Btn type="submit" className="px-6 py-3">
+                    {sent ? <><Check className="size-4" /> Demo booked</> : <>Book my demo <ArrowRight className="size-4" /></>}
+                  </Btn>
                 </div>
-                <div>
-                  <label className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Work email</label>
-                  <input
-                    required
-                    type="email"
-                    value={form.email}
-                    onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    placeholder="jane@company.com"
-                    className="mt-1.5 w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-violet focus:outline-none"
-                  />
-                </div>
-              </div>
-              <div className="mt-5">
-                <label className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Company</label>
-                <input
-                  value={form.company}
-                  onChange={(e) => setForm({ ...form, company: e.target.value })}
-                  placeholder="Acme Inc."
-                  className="mt-1.5 w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-violet focus:outline-none"
-                />
-              </div>
-              <div className="mt-5">
-                <label className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">How can we help?</label>
-                <textarea
-                  required
-                  rows={5}
-                  value={form.message}
-                  onChange={(e) => setForm({ ...form, message: e.target.value })}
-                  placeholder="Tell us about your team, the tools you're replacing, and what success looks like…"
-                  className="mt-1.5 w-full resize-none rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-violet focus:outline-none"
-                />
-              </div>
-              <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
-                <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                  <Lock className="size-3.5 text-emerald" /> Encrypted & SOC 2 compliant
-                </div>
-                <Btn type="submit" className="px-6 py-3">
-                  {sent ? <><Check className="size-4" /> Message sent</> : <>Send message <ArrowRight className="size-4" /></>}
-                </Btn>
-              </div>
-              {sent && (
-                <div className="mt-4 rounded-xl bg-emerald/10 px-4 py-3 text-sm text-emerald">
-                  Thanks {form.name || "there"} — we'll be in touch within 4 business hours.
-                </div>
-              )}
-            </form>
+
+                {sent && (
+                  <div className="mt-5 flex items-start gap-3 rounded-2xl border border-emerald/20 bg-emerald/10 p-4 text-sm">
+                    <div className="grid size-8 place-items-center rounded-full bg-emerald/20"><Check className="size-4 text-emerald" /></div>
+                    <div>
+                      <div className="font-semibold text-emerald">You're booked for {slot}.</div>
+                      <div className="mt-0.5 text-emerald/80">A calendar invite is on its way to {form.email || "your inbox"} — see you soon, {form.name || "friend"}.</div>
+                    </div>
+                  </div>
+                )}
+              </form>
+            </div>
           </div>
 
-          <div className="space-y-4 lg:col-span-2">
-            {channels.map((c, i) => (
-              <div key={i} className="rounded-2xl glass p-5 transition hover:bg-white/[0.04]">
-                <div className="flex items-start gap-4">
-                  <div className="grid size-11 place-items-center rounded-xl bg-violet/15">
-                    <c.i className="size-5 text-violet" />
+          {/* Right column */}
+          <div className="space-y-4 lg:col-span-5">
+            {/* What happens next */}
+            <div className="rounded-3xl glass-strong p-6">
+              <div className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">What happens next</div>
+              <div className="mt-4 space-y-4">
+                {next.map((n, i) => (
+                  <div key={i} className="flex items-start gap-3">
+                    <div className="relative">
+                      <div className="grid size-9 place-items-center rounded-xl bg-violet/15"><n.i className="size-4 text-violet" /></div>
+                      {i < next.length - 1 && <div className="absolute left-1/2 top-9 h-6 w-px -translate-x-1/2 bg-white/10" />}
+                    </div>
+                    <div>
+                      <div className="text-sm font-semibold">{n.t}</div>
+                      <div className="text-xs text-muted-foreground">{n.d}</div>
+                    </div>
                   </div>
-                  <div className="min-w-0">
-                    <div className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">{c.t}</div>
-                    <div className="mt-1 font-semibold text-foreground">{c.d}</div>
-                    <div className="mt-1 text-xs text-muted-foreground">{c.sub}</div>
+                ))}
+              </div>
+            </div>
+
+            {/* Channels grid */}
+            <div className="grid grid-cols-2 gap-3">
+              {channels.map((c, i) => (
+                <div key={i} className="group rounded-2xl glass p-4 transition hover:glow-violet">
+                  <div className={`grid size-9 place-items-center rounded-xl bg-${c.c}/15`}>
+                    <c.i className={`size-4 text-${c.c}`} />
                   </div>
+                  <div className="mt-3 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">{c.t}</div>
+                  <div className="mt-0.5 truncate text-sm font-semibold">{c.d}</div>
+                  <div className="mt-1 text-[11px] leading-snug text-muted-foreground">{c.sub}</div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+
+            {/* Status + testimonial */}
             <div className="rounded-2xl glass-strong p-5">
-              <div className="flex items-center gap-2 text-emerald">
-                <span className="size-2 animate-pulse-glow rounded-full bg-emerald" />
-                <span className="font-mono text-[10px] uppercase tracking-wider">All systems normal</span>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2 text-emerald">
+                  <span className="size-2 animate-pulse-glow rounded-full bg-emerald" />
+                  <span className="font-mono text-[10px] uppercase tracking-wider">All systems normal</span>
+                </div>
+                <span className="font-mono text-[10px] text-muted-foreground">99.99% / 90d</span>
               </div>
-              <div className="mt-2 text-sm text-muted-foreground">99.99% uptime over the last 90 days.</div>
+              <div className="mt-4 border-t border-white/5 pt-4">
+                <div className="flex gap-0.5">{[...Array(5)].map((_, j) => <Star key={j} className="size-3 fill-amber text-amber" />)}</div>
+                <p className="mt-2 text-sm italic text-muted-foreground">"We booked a demo on Monday, signed on Friday. FlowDesk replaced 9 tools in our stack."</p>
+                <div className="mt-2 text-xs text-muted-foreground">— Maya R., COO at Northwind</div>
+              </div>
             </div>
           </div>
         </div>
       </Container>
     </section>
+  );
+}
+
+const inputCls = "mt-1.5 w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-violet focus:outline-none";
+
+function Field({ label, children, className = "" }: { label: string; children: React.ReactNode; className?: string }) {
+  return (
+    <div className={className}>
+      <label className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">{label}</label>
+      {children}
+    </div>
   );
 }
 
