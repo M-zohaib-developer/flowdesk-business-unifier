@@ -1957,7 +1957,7 @@ function AIFlow() {
               {outcomes.map((o, i) => (
                 <div key={i} className="glass flex items-center justify-between rounded-xl p-3">
                   <div className="flex items-center gap-2">
-                    <o.i className={`size-4 text-${o.c}`} />
+                    <o.i className="size-4" style={{ color: `var(--${o.c})` }} />
                     <span className="text-xs font-semibold">{o.n}</span>
                   </div>
                   <ChevronRight className="size-3.5 text-muted-foreground" />
