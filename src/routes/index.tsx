@@ -50,26 +50,43 @@ const Btn = ({ children, variant = "primary", className = "", ...p }: any) => {
   return <button className={`${base} ${styles} ${className}`} style={style} {...p}>{children}</button>;
 };
 
+/* ---------- scroll helper ---------- */
+export const scrollToId = (id: string) => {
+  if (typeof window === "undefined") return;
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+};
+
 /* ---------- Nav ---------- */
 function Nav() {
+  const links: { l: string; id: string }[] = [
+    { l: "Product", id: "product" },
+    { l: "Solutions", id: "solutions" },
+    { l: "AI Flow", id: "ai-flow" },
+    { l: "Pricing", id: "pricing" },
+    { l: "Customers", id: "customers" },
+  ];
   return (
     <header className="fixed top-0 z-50 w-full">
       <Container className="mt-4">
         <nav className="glass-strong flex items-center justify-between rounded-2xl px-4 py-3">
-          <a href="#" className="flex items-center gap-2">
+          <button onClick={() => scrollToId("top")} className="flex items-center gap-2">
             <div className="grid size-8 place-items-center rounded-lg" style={{ background: "var(--gradient-primary)" }}>
               <Layers className="size-4 text-white" />
             </div>
             <span className="font-display text-lg font-bold tracking-tight">FlowDesk</span>
-          </a>
+          </button>
           <div className="hidden items-center gap-8 md:flex">
-            {["Product", "Solutions", "AI", "Pricing", "Customers"].map(l => (
-              <a key={l} href={`#${l.toLowerCase()}`} className="text-sm text-muted-foreground transition hover:text-foreground">{l}</a>
+            {links.map(({ l, id }) => (
+              <button key={l} onClick={() => scrollToId(id)} className="text-sm text-muted-foreground transition hover:text-foreground">
+                {l}
+              </button>
             ))}
           </div>
           <div className="flex items-center gap-2">
-            <button className="hidden text-sm text-muted-foreground hover:text-foreground md:block">Sign in</button>
-            <Btn className="px-4 py-2">Start free <ArrowRight className="size-3.5" /></Btn>
+            <Btn className="px-4 py-2" onClick={() => scrollToId("contact")}>
+              <PlayCircle className="size-3.5" /> Book a Demo
+            </Btn>
           </div>
         </nav>
       </Container>
@@ -215,8 +232,8 @@ function Hero() {
               FlowDesk replaces the 10+ disconnected tools your team juggles every day — CRM, projects, finance, analytics, communication and AI — with one intelligent platform. Less switching. Less guessing. More shipping.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Btn>Start free 14-day trial <ArrowRight className="size-4" /></Btn>
-              <Btn variant="ghost"><PlayCircle className="size-4" /> Book a demo</Btn>
+              <Btn onClick={() => scrollToId("pricing")}>Start free 14-day trial <ArrowRight className="size-4" /></Btn>
+              <Btn variant="ghost" onClick={() => scrollToId("contact")}><PlayCircle className="size-4" /> Book a demo</Btn>
             </div>
             <div className="mt-10 flex flex-wrap items-center gap-6 text-xs text-muted-foreground">
               <div className="flex items-center gap-1.5"><Check className="size-3.5 text-emerald" /> No credit card</div>
@@ -498,7 +515,7 @@ function Stories() {
     { c: "Lumen Studio", t: "Digital agency · 35 staff", h: "Projects, timesheets and invoicing in one flow.", q: "Every client project lives in one workspace — proposals to invoices. No more 'where's that file?' Slack threads.", a: "Priya N., Founder", i: Wand2 },
   ];
   return (
-    <section className="relative py-32">
+    <section id="customers" className="relative py-32">
       <Container>
         <SectionHeader eyebrow="Customer stories" title={<>Built for the businesses <span className="text-gradient-violet">outgrowing their stack.</span></>} />
         <div className="mt-16 grid gap-6 md:grid-cols-3">
@@ -814,7 +831,7 @@ function Pricing() {
                   </li>
                 ))}
               </ul>
-              <Btn variant={p.featured ? "primary" : "ghost"} className="mt-8 w-full">{p.cta} <ArrowRight className="size-4" /></Btn>
+              <Btn variant={p.featured ? "primary" : "ghost"} className="mt-8 w-full" onClick={() => scrollToId("contact")}>{p.cta} <ArrowRight className="size-4" /></Btn>
             </div>
           ))}
         </div>
@@ -840,8 +857,8 @@ function FinalCTA() {
             Join 4,200+ teams who consolidated their entire operation onto FlowDesk in under a week.
           </p>
           <div className="mt-10 flex flex-wrap justify-center gap-3">
-            <Btn>Start your free trial <ArrowRight className="size-4" /></Btn>
-            <Btn variant="ghost"><PlayCircle className="size-4" /> Book a 20-min demo</Btn>
+            <Btn onClick={() => scrollToId("pricing")}>Start your free trial <ArrowRight className="size-4" /></Btn>
+            <Btn variant="ghost" onClick={() => scrollToId("contact")}><PlayCircle className="size-4" /> Book a 20-min demo</Btn>
           </div>
           <div className="mt-8 text-xs text-muted-foreground">No credit card required · Cancel anytime · SOC 2 Type II</div>
         </div>
@@ -1465,7 +1482,7 @@ function EnterpriseIssues() {
       stat: "100% shared context", sIcon: GitBranch },
   ];
   return (
-    <section id="solutions" className="relative py-32">
+    <section id="enterprise" className="relative py-32">
       <div className="absolute inset-0 -z-10 bg-mesh opacity-40" />
       <Container>
         <SectionHeader
@@ -1592,110 +1609,194 @@ function About() {
 
 /* ---------- Contact ---------- */
 function Contact() {
-  const [form, setForm] = useState({ name: "", email: "", company: "", message: "" });
+  const [form, setForm] = useState({ name: "", email: "", company: "", teamSize: "11–50", interest: "Book a demo", message: "" });
   const [sent, setSent] = useState(false);
+  const [slot, setSlot] = useState("Tue · 10:00");
+
   const channels = [
-    { i: Mail, t: "Email us", d: "hello@flowdesk.com", sub: "Replies within 4 business hours" },
-    { i: MessageSquare, t: "Live chat", d: "Chat with the team", sub: "24/7 in English, Urdu, Hindi" },
-    { i: Building2, t: "Enterprise sales", d: "sales@flowdesk.com", sub: "For teams of 50+" },
-    { i: Globe, t: "Offices", d: "San Francisco · London · Dubai · Karachi", sub: "Remote-first, globally distributed" },
+    { i: Mail, t: "Email us", d: "hello@flowdesk.com", sub: "Replies within 4 business hours", c: "violet" },
+    { i: MessageSquare, t: "Live chat", d: "Chat with the team", sub: "24/7 in English, Urdu, Hindi", c: "emerald" },
+    { i: Building2, t: "Enterprise sales", d: "sales@flowdesk.com", sub: "For teams of 50+", c: "violet" },
+    { i: Globe, t: "Global offices", d: "SF · London · Dubai · Karachi", sub: "Remote-first, distributed", c: "amber" },
   ];
+
+  const interests = ["Book a demo", "Pricing", "Migration help", "Enterprise / SSO", "Partnership"];
+  const slots = ["Mon · 14:00", "Tue · 10:00", "Tue · 16:00", "Wed · 11:00", "Thu · 09:00", "Fri · 15:00"];
+  const next = [
+    { i: Mail, t: "We reply in 4 hrs", d: "A real human, never a bot, reads every form." },
+    { i: PlayCircle, t: "20-min discovery call", d: "We map your current stack and quantify the cost." },
+    { i: Rocket, t: "Tailored demo + ROI", d: "Live demo on your data with savings projection." },
+  ];
+
   return (
-    <section id="contact" className="relative py-32">
-      <div className="absolute inset-0 -z-10 bg-dots opacity-30" />
+    <section id="contact" className="relative overflow-hidden py-32">
+      <div className="absolute inset-0 -z-10 bg-mesh opacity-50" />
+      <div className="absolute inset-0 -z-10 bg-dots opacity-20" />
+      <div className="absolute -top-32 left-1/2 -z-10 size-[40rem] -translate-x-1/2 rounded-full opacity-30 blur-3xl" style={{ background: "var(--gradient-primary)" }} />
+
       <Container>
         <SectionHeader
-          eyebrow="Contact"
-          title={<>Let's <span className="text-gradient-violet">talk.</span></>}
-          sub="Questions, a custom demo, or an enterprise rollout — pick the channel that works for you. A real human will respond."
+          eyebrow="Talk to us"
+          title={<>Book a demo. <span className="text-gradient-violet">See FlowDesk on your data.</span></>}
+          sub="Tell us about your stack — we'll show you exactly how FlowDesk replaces it, in a 20-minute live walkthrough."
         />
 
-        <div className="mt-16 grid gap-8 lg:grid-cols-5">
-          <div className="lg:col-span-3">
-            <form
-              onSubmit={(e) => { e.preventDefault(); setSent(true); }}
-              className="rounded-3xl glass-strong p-8"
-            >
-              <div className="grid gap-5 sm:grid-cols-2">
+        {/* trust strip */}
+        <div className="mx-auto mt-8 flex max-w-3xl flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-muted-foreground">
+          <div className="flex items-center gap-1.5"><Check className="size-3.5 text-emerald" /> No sales pressure</div>
+          <div className="flex items-center gap-1.5"><Check className="size-3.5 text-emerald" /> Custom ROI in 24 hrs</div>
+          <div className="flex items-center gap-1.5"><Check className="size-3.5 text-emerald" /> NDAs on request</div>
+          <div className="flex items-center gap-1.5"><Lock className="size-3.5 text-emerald" /> SOC 2 · GDPR</div>
+        </div>
+
+        <div className="mt-16 grid gap-8 lg:grid-cols-12">
+          {/* Form card */}
+          <div className="lg:col-span-7">
+            <div className="relative overflow-hidden rounded-[2rem] glass-strong p-8 md:p-10">
+              <div className="pointer-events-none absolute -right-24 -top-24 size-64 rounded-full opacity-30 blur-3xl" style={{ background: "var(--gradient-primary)" }} />
+              <div className="flex items-center gap-2">
+                <div className="grid size-9 place-items-center rounded-xl bg-violet/15"><Sparkles className="size-4 text-violet" /></div>
                 <div>
-                  <label className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Name</label>
-                  <input
-                    required
-                    value={form.name}
-                    onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    placeholder="Jane Cooper"
-                    className="mt-1.5 w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-violet focus:outline-none"
+                  <div className="font-display text-lg font-bold">Book your custom demo</div>
+                  <div className="text-xs text-muted-foreground">Takes 30 seconds. Live in 20 minutes.</div>
+                </div>
+              </div>
+
+              <form
+                onSubmit={(e) => { e.preventDefault(); setSent(true); }}
+                className="mt-7"
+              >
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <Field label="Full name">
+                    <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Jane Cooper" className={inputCls} />
+                  </Field>
+                  <Field label="Work email">
+                    <input required type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="jane@company.com" className={inputCls} />
+                  </Field>
+                  <Field label="Company">
+                    <input value={form.company} onChange={(e) => setForm({ ...form, company: e.target.value })} placeholder="Acme Inc." className={inputCls} />
+                  </Field>
+                  <Field label="Team size">
+                    <select value={form.teamSize} onChange={(e) => setForm({ ...form, teamSize: e.target.value })} className={inputCls}>
+                      {["1–10", "11–50", "51–200", "201–1,000", "1,000+"].map(s => <option key={s} className="bg-background">{s}</option>)}
+                    </select>
+                  </Field>
+                </div>
+
+                <div className="mt-5">
+                  <div className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">I'm interested in</div>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {interests.map(t => (
+                      <button
+                        type="button"
+                        key={t}
+                        onClick={() => setForm({ ...form, interest: t })}
+                        className={`rounded-full px-3.5 py-1.5 text-xs font-semibold transition ${form.interest === t ? "text-white glow-violet" : "glass text-muted-foreground hover:text-foreground"}`}
+                        style={form.interest === t ? { background: "var(--gradient-primary)" } : undefined}
+                      >
+                        {t}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-5">
+                  <div className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Pick a slot (your timezone)</div>
+                  <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3">
+                    {slots.map(s => (
+                      <button
+                        type="button"
+                        key={s}
+                        onClick={() => setSlot(s)}
+                        className={`rounded-xl border px-3 py-2.5 text-xs font-semibold transition ${slot === s ? "border-violet bg-violet/10 text-foreground" : "border-white/10 bg-black/20 text-muted-foreground hover:border-white/20 hover:text-foreground"}`}
+                      >
+                        {s}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <Field label="What are you trying to solve?" className="mt-5">
+                  <textarea
+                    rows={4}
+                    value={form.message}
+                    onChange={(e) => setForm({ ...form, message: e.target.value })}
+                    placeholder="Tell us about your team, the tools you're replacing, and what success looks like…"
+                    className={`${inputCls} resize-none`}
                   />
+                </Field>
+
+                <div className="mt-7 flex flex-wrap items-center justify-between gap-4">
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <Lock className="size-3.5 text-emerald" /> Encrypted in transit · SOC 2 Type II
+                  </div>
+                  <Btn type="submit" className="px-6 py-3">
+                    {sent ? <><Check className="size-4" /> Demo booked</> : <>Book my demo <ArrowRight className="size-4" /></>}
+                  </Btn>
                 </div>
-                <div>
-                  <label className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Work email</label>
-                  <input
-                    required
-                    type="email"
-                    value={form.email}
-                    onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    placeholder="jane@company.com"
-                    className="mt-1.5 w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-violet focus:outline-none"
-                  />
-                </div>
-              </div>
-              <div className="mt-5">
-                <label className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Company</label>
-                <input
-                  value={form.company}
-                  onChange={(e) => setForm({ ...form, company: e.target.value })}
-                  placeholder="Acme Inc."
-                  className="mt-1.5 w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-violet focus:outline-none"
-                />
-              </div>
-              <div className="mt-5">
-                <label className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">How can we help?</label>
-                <textarea
-                  required
-                  rows={5}
-                  value={form.message}
-                  onChange={(e) => setForm({ ...form, message: e.target.value })}
-                  placeholder="Tell us about your team, the tools you're replacing, and what success looks like…"
-                  className="mt-1.5 w-full resize-none rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-violet focus:outline-none"
-                />
-              </div>
-              <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
-                <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                  <Lock className="size-3.5 text-emerald" /> Encrypted & SOC 2 compliant
-                </div>
-                <Btn type="submit" className="px-6 py-3">
-                  {sent ? <><Check className="size-4" /> Message sent</> : <>Send message <ArrowRight className="size-4" /></>}
-                </Btn>
-              </div>
-              {sent && (
-                <div className="mt-4 rounded-xl bg-emerald/10 px-4 py-3 text-sm text-emerald">
-                  Thanks {form.name || "there"} — we'll be in touch within 4 business hours.
-                </div>
-              )}
-            </form>
+
+                {sent && (
+                  <div className="mt-5 flex items-start gap-3 rounded-2xl border border-emerald/20 bg-emerald/10 p-4 text-sm">
+                    <div className="grid size-8 place-items-center rounded-full bg-emerald/20"><Check className="size-4 text-emerald" /></div>
+                    <div>
+                      <div className="font-semibold text-emerald">You're booked for {slot}.</div>
+                      <div className="mt-0.5 text-emerald/80">A calendar invite is on its way to {form.email || "your inbox"} — see you soon, {form.name || "friend"}.</div>
+                    </div>
+                  </div>
+                )}
+              </form>
+            </div>
           </div>
 
-          <div className="space-y-4 lg:col-span-2">
-            {channels.map((c, i) => (
-              <div key={i} className="rounded-2xl glass p-5 transition hover:bg-white/[0.04]">
-                <div className="flex items-start gap-4">
-                  <div className="grid size-11 place-items-center rounded-xl bg-violet/15">
-                    <c.i className="size-5 text-violet" />
+          {/* Right column */}
+          <div className="space-y-4 lg:col-span-5">
+            {/* What happens next */}
+            <div className="rounded-3xl glass-strong p-6">
+              <div className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">What happens next</div>
+              <div className="mt-4 space-y-4">
+                {next.map((n, i) => (
+                  <div key={i} className="flex items-start gap-3">
+                    <div className="relative">
+                      <div className="grid size-9 place-items-center rounded-xl bg-violet/15"><n.i className="size-4 text-violet" /></div>
+                      {i < next.length - 1 && <div className="absolute left-1/2 top-9 h-6 w-px -translate-x-1/2 bg-white/10" />}
+                    </div>
+                    <div>
+                      <div className="text-sm font-semibold">{n.t}</div>
+                      <div className="text-xs text-muted-foreground">{n.d}</div>
+                    </div>
                   </div>
-                  <div className="min-w-0">
-                    <div className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">{c.t}</div>
-                    <div className="mt-1 font-semibold text-foreground">{c.d}</div>
-                    <div className="mt-1 text-xs text-muted-foreground">{c.sub}</div>
+                ))}
+              </div>
+            </div>
+
+            {/* Channels grid */}
+            <div className="grid grid-cols-2 gap-3">
+              {channels.map((c, i) => (
+                <div key={i} className="group rounded-2xl glass p-4 transition hover:glow-violet">
+                  <div className="grid size-9 place-items-center rounded-xl" style={{ backgroundColor: `color-mix(in oklab, var(--${c.c}) 15%, transparent)` }}>
+                    <c.i className="size-4" style={{ color: `var(--${c.c})` }} />
                   </div>
+                  <div className="mt-3 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">{c.t}</div>
+                  <div className="mt-0.5 truncate text-sm font-semibold">{c.d}</div>
+                  <div className="mt-1 text-[11px] leading-snug text-muted-foreground">{c.sub}</div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+
+            {/* Status + testimonial */}
             <div className="rounded-2xl glass-strong p-5">
-              <div className="flex items-center gap-2 text-emerald">
-                <span className="size-2 animate-pulse-glow rounded-full bg-emerald" />
-                <span className="font-mono text-[10px] uppercase tracking-wider">All systems normal</span>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2 text-emerald">
+                  <span className="size-2 animate-pulse-glow rounded-full bg-emerald" />
+                  <span className="font-mono text-[10px] uppercase tracking-wider">All systems normal</span>
+                </div>
+                <span className="font-mono text-[10px] text-muted-foreground">99.99% / 90d</span>
               </div>
-              <div className="mt-2 text-sm text-muted-foreground">99.99% uptime over the last 90 days.</div>
+              <div className="mt-4 border-t border-white/5 pt-4">
+                <div className="flex gap-0.5">{[...Array(5)].map((_, j) => <Star key={j} className="size-3 fill-amber text-amber" />)}</div>
+                <p className="mt-2 text-sm italic text-muted-foreground">"We booked a demo on Monday, signed on Friday. FlowDesk replaced 9 tools in our stack."</p>
+                <div className="mt-2 text-xs text-muted-foreground">— Maya R., COO at Northwind</div>
+              </div>
             </div>
           </div>
         </div>
@@ -1704,9 +1805,20 @@ function Contact() {
   );
 }
 
+const inputCls = "mt-1.5 w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-violet focus:outline-none";
+
+function Field({ label, children, className = "" }: { label: string; children: React.ReactNode; className?: string }) {
+  return (
+    <div className={className}>
+      <label className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">{label}</label>
+      {children}
+    </div>
+  );
+}
+
 function Landing() {
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main id="top" className="min-h-screen bg-background text-foreground">
       <Nav />
       <Hero />
       <StatsBand />
@@ -1715,6 +1827,7 @@ function Landing() {
       <Solution />
       <Journey />
       <WorkflowCompare />
+      <AIFlow />
       <AISection />
       <AIAgents />
       <AIPlayground />
@@ -1733,5 +1846,146 @@ function Landing() {
       <FinalCTA />
       <Footer />
     </main>
+  );
+}
+
+/* ---------- AI Flow — animated end-to-end pipeline ---------- */
+function AIFlow() {
+  const [step, setStep] = useState(0);
+  const steps = [
+    { i: Database, t: "Ingest", d: "Every signal — CRM, support, billing, ops — streams into one unified data brain.", color: "violet" },
+    { i: Brain, t: "Understand", d: "FlowDesk AI labels intents, links records, scores risk and opportunity in real time.", color: "violet" },
+    { i: Workflow, t: "Decide", d: "Multi-model reasoning routes each task to the right policy, agent or human owner.", color: "violet" },
+    { i: Bot, t: "Act", d: "Autonomous agents draft replies, update records, trigger workflows and send approvals.", color: "emerald" },
+    { i: TrendingUp, t: "Grow", d: "Revenue lifts, churn drops, SLAs hit. Every action loops back to retrain the model.", color: "amber" },
+  ];
+  useEffect(() => {
+    const t = setInterval(() => setStep(s => (s + 1) % steps.length), 2200);
+    return () => clearInterval(t);
+  }, [steps.length]);
+
+  const sources = [
+    { i: MessageSquare, n: "WhatsApp" }, { i: Mail, n: "Email" }, { i: Receipt, n: "Stripe" },
+    { i: Users, n: "CRM" }, { i: FileSpreadsheet, n: "Sheets" }, { i: Kanban, n: "Tasks" },
+  ];
+  const outcomes = [
+    { i: TrendingUp, n: "+24% revenue", c: "emerald" },
+    { i: Clock, n: "−22 hrs/week", c: "violet" },
+    { i: Shield, n: "0 SLA breaches", c: "violet" },
+    { i: DollarSign, n: "−62% cost", c: "amber" },
+  ];
+
+  return (
+    <section id="ai-flow" className="relative overflow-hidden py-32">
+      <div className="absolute inset-0 -z-10 bg-mesh opacity-60" />
+      <div className="absolute inset-0 -z-10 bg-dots opacity-20" />
+      <Container>
+        <SectionHeader
+          eyebrow="The AI Flow"
+          title={<>Watch AI actually <span className="text-gradient-violet">run your business.</span></>}
+          sub="Five live stages — from raw signal to revenue. This is the loop powering every FlowDesk customer, animated in real time."
+        />
+
+        {/* Stage chips */}
+        <div className="mt-14 flex flex-wrap justify-center gap-2">
+          {steps.map((s, i) => (
+            <button
+              key={s.t}
+              onClick={() => setStep(i)}
+              className={`flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold transition-all ${
+                step === i ? "glass-strong glow-violet text-foreground" : "glass text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <span className={`grid size-5 place-items-center rounded-full font-mono text-[10px] ${step === i ? "bg-violet text-white" : "bg-white/5"}`}>{i + 1}</span>
+              {s.t}
+            </button>
+          ))}
+        </div>
+
+        {/* Pipeline visual */}
+        <div className="mt-10 grid gap-6 lg:grid-cols-12">
+          {/* Sources */}
+          <div className="lg:col-span-3">
+            <div className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Your business signals</div>
+            <div className="mt-3 grid grid-cols-2 gap-2">
+              {sources.map((s, i) => (
+                <div key={i} className="glass flex items-center gap-2 rounded-xl p-3">
+                  <s.i className="size-4 text-violet" />
+                  <span className="truncate text-xs font-semibold">{s.n}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Animated brain */}
+          <div className="relative overflow-hidden rounded-3xl glass-strong p-6 lg:col-span-6" style={{ minHeight: 360 }}>
+            <NeuralViz />
+            {/* Flowing lines */}
+            <svg className="absolute inset-0 size-full" viewBox="0 0 100 60" preserveAspectRatio="none">
+              {[18, 30, 42].map((y, i) => (
+                <line key={i} x1="0" y1={y} x2="100" y2={y} stroke="oklch(0.7 0.22 295 / 0.25)" strokeWidth="0.15" strokeDasharray="2 2">
+                  <animate attributeName="stroke-dashoffset" from="0" to="-20" dur={`${2 + i * 0.4}s`} repeatCount="indefinite" />
+                </line>
+              ))}
+            </svg>
+            <div className="relative flex h-full flex-col">
+              <div className="flex items-center gap-2">
+                <span className="size-2 animate-pulse-glow rounded-full bg-emerald" />
+                <span className="font-mono text-[10px] uppercase tracking-wider text-emerald">AI active · stage {step + 1}/5</span>
+              </div>
+              <div className="mt-6 flex flex-1 flex-col items-center justify-center text-center">
+                <div className="grid size-20 place-items-center rounded-2xl glow-violet transition-all" style={{ background: "var(--gradient-primary)" }}>
+                  {(() => { const Icon = steps[step].i; return <Icon className="size-9 text-white" />; })()}
+                </div>
+                <div className="mt-5 font-display text-3xl font-bold text-gradient">{steps[step].t}</div>
+                <p className="mt-3 max-w-md text-sm text-muted-foreground">{steps[step].d}</p>
+              </div>
+              <div className="mt-4 flex gap-1.5">
+                {steps.map((_, i) => (
+                  <div key={i} className={`h-1 flex-1 overflow-hidden rounded-full ${step === i ? "bg-violet/30" : "bg-white/5"}`}>
+                    {step === i && <div className="h-full w-full origin-left animate-fade-in bg-violet" style={{ animation: "scale-in 2.2s linear" }} />}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Outcomes */}
+          <div className="lg:col-span-3">
+            <div className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Business outcomes</div>
+            <div className="mt-3 grid gap-2">
+              {outcomes.map((o, i) => (
+                <div key={i} className="glass flex items-center justify-between rounded-xl p-3">
+                  <div className="flex items-center gap-2">
+                    <o.i className="size-4" style={{ color: `var(--${o.c})` }} />
+                    <span className="text-xs font-semibold">{o.n}</span>
+                  </div>
+                  <ChevronRight className="size-3.5 text-muted-foreground" />
+                </div>
+              ))}
+            </div>
+            <Btn className="mt-4 w-full" onClick={() => scrollToId("contact")}>
+              See it on your data <ArrowRight className="size-4" />
+            </Btn>
+          </div>
+        </div>
+
+        {/* How AI grows your business */}
+        <div className="mt-16 grid gap-5 md:grid-cols-3">
+          {[
+            { i: TrendingUp, t: "Grows revenue", d: "AI identifies the next-best action for every deal, ticket and campaign — and runs it.", stat: "+24% pipeline" },
+            { i: Clock, t: "Saves time", d: "Autonomous agents handle handoffs, drafting, follow-ups and reporting around the clock.", stat: "22 hrs/wk back" },
+            { i: Brain, t: "Sharpens decisions", d: "Forecasts, anomalies and recommendations land in your inbox before issues become fires.", stat: "Decide in minutes" },
+          ].map((c, i) => (
+            <div key={i} className="rounded-3xl glass p-6 transition hover:glow-violet">
+              <div className="grid size-11 place-items-center rounded-xl bg-violet/15"><c.i className="size-5 text-violet" /></div>
+              <div className="mt-4 font-display text-lg font-bold">{c.t}</div>
+              <p className="mt-2 text-sm text-muted-foreground">{c.d}</p>
+              <div className="mt-4 inline-flex rounded-full glass-strong px-3 py-1 font-mono text-[11px] font-semibold text-foreground/90">{c.stat}</div>
+            </div>
+          ))}
+        </div>
+      </Container>
+    </section>
   );
 }
