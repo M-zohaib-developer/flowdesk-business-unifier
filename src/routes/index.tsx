@@ -232,8 +232,8 @@ function Hero() {
               FlowDesk replaces the 10+ disconnected tools your team juggles every day — CRM, projects, finance, analytics, communication and AI — with one intelligent platform. Less switching. Less guessing. More shipping.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Btn>Start free 14-day trial <ArrowRight className="size-4" /></Btn>
-              <Btn variant="ghost"><PlayCircle className="size-4" /> Book a demo</Btn>
+              <Btn onClick={() => scrollToId("pricing")}>Start free 14-day trial <ArrowRight className="size-4" /></Btn>
+              <Btn variant="ghost" onClick={() => scrollToId("contact")}><PlayCircle className="size-4" /> Book a demo</Btn>
             </div>
             <div className="mt-10 flex flex-wrap items-center gap-6 text-xs text-muted-foreground">
               <div className="flex items-center gap-1.5"><Check className="size-3.5 text-emerald" /> No credit card</div>
