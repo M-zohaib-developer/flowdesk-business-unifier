@@ -831,7 +831,7 @@ function Pricing() {
                   </li>
                 ))}
               </ul>
-              <Btn variant={p.featured ? "primary" : "ghost"} className="mt-8 w-full">{p.cta} <ArrowRight className="size-4" /></Btn>
+              <Btn variant={p.featured ? "primary" : "ghost"} className="mt-8 w-full" onClick={() => scrollToId("contact")}>{p.cta} <ArrowRight className="size-4" /></Btn>
             </div>
           ))}
         </div>
