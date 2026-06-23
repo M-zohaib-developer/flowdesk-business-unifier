@@ -515,7 +515,7 @@ function Stories() {
     { c: "Lumen Studio", t: "Digital agency · 35 staff", h: "Projects, timesheets and invoicing in one flow.", q: "Every client project lives in one workspace — proposals to invoices. No more 'where's that file?' Slack threads.", a: "Priya N., Founder", i: Wand2 },
   ];
   return (
-    <section className="relative py-32">
+    <section id="customers" className="relative py-32">
       <Container>
         <SectionHeader eyebrow="Customer stories" title={<>Built for the businesses <span className="text-gradient-violet">outgrowing their stack.</span></>} />
         <div className="mt-16 grid gap-6 md:grid-cols-3">
