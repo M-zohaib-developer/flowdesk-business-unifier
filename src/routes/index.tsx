@@ -50,26 +50,43 @@ const Btn = ({ children, variant = "primary", className = "", ...p }: any) => {
   return <button className={`${base} ${styles} ${className}`} style={style} {...p}>{children}</button>;
 };
 
+/* ---------- scroll helper ---------- */
+export const scrollToId = (id: string) => {
+  if (typeof window === "undefined") return;
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+};
+
 /* ---------- Nav ---------- */
 function Nav() {
+  const links: { l: string; id: string }[] = [
+    { l: "Product", id: "product" },
+    { l: "Solutions", id: "solutions" },
+    { l: "AI Flow", id: "ai-flow" },
+    { l: "Pricing", id: "pricing" },
+    { l: "Customers", id: "customers" },
+  ];
   return (
     <header className="fixed top-0 z-50 w-full">
       <Container className="mt-4">
         <nav className="glass-strong flex items-center justify-between rounded-2xl px-4 py-3">
-          <a href="#" className="flex items-center gap-2">
+          <button onClick={() => scrollToId("top")} className="flex items-center gap-2">
             <div className="grid size-8 place-items-center rounded-lg" style={{ background: "var(--gradient-primary)" }}>
               <Layers className="size-4 text-white" />
             </div>
             <span className="font-display text-lg font-bold tracking-tight">FlowDesk</span>
-          </a>
+          </button>
           <div className="hidden items-center gap-8 md:flex">
-            {["Product", "Solutions", "AI", "Pricing", "Customers"].map(l => (
-              <a key={l} href={`#${l.toLowerCase()}`} className="text-sm text-muted-foreground transition hover:text-foreground">{l}</a>
+            {links.map(({ l, id }) => (
+              <button key={l} onClick={() => scrollToId(id)} className="text-sm text-muted-foreground transition hover:text-foreground">
+                {l}
+              </button>
             ))}
           </div>
           <div className="flex items-center gap-2">
-            <button className="hidden text-sm text-muted-foreground hover:text-foreground md:block">Sign in</button>
-            <Btn className="px-4 py-2">Start free <ArrowRight className="size-3.5" /></Btn>
+            <Btn className="px-4 py-2" onClick={() => scrollToId("contact")}>
+              <PlayCircle className="size-3.5" /> Book a Demo
+            </Btn>
           </div>
         </nav>
       </Container>
