@@ -16,7 +16,9 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "FlowDesk replaces 10+ disconnected tools with a single intelligent business operating system. Projects, CRM, analytics, automation, finance, and AI insights — unified." },
       { property: "og:title", content: "FlowDesk — One Platform. Every Business. Zero Chaos." },
       { property: "og:description", content: "Stop running your business across 10 different tools. FlowDesk unifies everything into one intelligent platform." },
+      { property: "og:image", content: "/icon.png" },
     ],
+    links: [{ rel: "icon", href: "/icon.png", type: "image/png" }],
   }),
   component: Landing,
 });
@@ -39,6 +41,14 @@ const SectionHeader = ({ eyebrow, title, sub }: { eyebrow: string; title: React.
     <h2 className="mt-5 text-4xl font-bold tracking-tight text-gradient md:text-6xl">{title}</h2>
     {sub && <p className="mt-5 text-lg text-muted-foreground">{sub}</p>}
   </div>
+);
+
+const FlowDeskLogo = ({ className = "size-12" }: { className?: string }) => (
+  <img
+    src="/icon.png"
+    alt="FlowDesk"
+    className={`shrink-0 rounded-xl object-contain ring-1 ring-white/15 ${className}`}
+  />
 );
 
 const Btn = ({ children, variant = "primary", className = "", ...p }: any) => {
@@ -70,10 +80,8 @@ function Nav() {
     <header className="fixed top-0 z-50 w-full">
       <Container className="mt-4">
         <nav className="glass-strong flex items-center justify-between rounded-2xl px-4 py-3">
-          <button onClick={() => scrollToId("top")} className="flex items-center gap-2">
-            <div className="grid size-8 place-items-center rounded-lg" style={{ background: "var(--gradient-primary)" }}>
-              <Layers className="size-4 text-white" />
-            </div>
+          <button onClick={() => scrollToId("top")} className="flex items-center gap-3">
+            <FlowDeskLogo className="size-14" />
             <span className="font-display text-lg font-bold tracking-tight">FlowDesk</span>
           </button>
           <div className="hidden items-center gap-8 md:flex">
@@ -426,9 +434,7 @@ function WorkflowCompare() {
               <div className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2">
                 <div className="relative">
                   <div className="absolute inset-0 animate-pulse-glow rounded-2xl bg-violet/40 blur-2xl" />
-                  <div className="relative grid size-20 place-items-center rounded-2xl" style={{ background: "var(--gradient-primary)" }}>
-                    <Layers className="size-7 text-white" />
-                  </div>
+                  <FlowDeskLogo className="relative size-32 rounded-2xl" />
                 </div>
               </div>
 
@@ -872,10 +878,8 @@ function Footer() {
     <footer className="border-t border-white/5 py-12">
       <Container>
         <div className="flex flex-wrap items-center justify-between gap-6">
-          <div className="flex items-center gap-2">
-            <div className="grid size-8 place-items-center rounded-lg" style={{ background: "var(--gradient-primary)" }}>
-              <Layers className="size-4 text-white" />
-            </div>
+          <div className="flex items-center gap-3">
+            <FlowDeskLogo className="size-12" />
             <span className="font-display text-lg font-bold">FlowDesk</span>
             <span className="ml-2 text-xs text-muted-foreground">© 2026 · One Platform. Every Business. Zero Chaos.</span>
           </div>
@@ -943,9 +947,7 @@ function Solution() {
             <div className="relative">
               <div className="absolute -inset-6 rounded-3xl opacity-40 blur-2xl" style={{ background: "var(--gradient-primary)" }} />
               <div className="relative rounded-3xl p-6 text-center" style={{ background: "var(--gradient-mesh)", border: "1px solid oklch(0.7 0.22 295 / 0.3)" }}>
-                <div className="mx-auto grid size-14 place-items-center rounded-2xl" style={{ background: "var(--gradient-primary)" }}>
-                  <Layers className="size-6 text-white" />
-                </div>
+                <FlowDeskLogo className="mx-auto size-24 rounded-2xl" />
                 <div className="mt-3 font-display text-lg font-bold">FlowDesk OS</div>
                 <div className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Unified data + AI layer</div>
                 <div className="mt-4 grid grid-cols-2 gap-1.5 text-left">
