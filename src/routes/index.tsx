@@ -1723,7 +1723,7 @@ function Contact() {
 
 function Landing() {
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main id="top" className="min-h-screen bg-background text-foreground">
       <Nav />
       <Hero />
       <StatsBand />
@@ -1732,6 +1732,7 @@ function Landing() {
       <Solution />
       <Journey />
       <WorkflowCompare />
+      <AIFlow />
       <AISection />
       <AIAgents />
       <AIPlayground />
@@ -1750,5 +1751,146 @@ function Landing() {
       <FinalCTA />
       <Footer />
     </main>
+  );
+}
+
+/* ---------- AI Flow — animated end-to-end pipeline ---------- */
+function AIFlow() {
+  const [step, setStep] = useState(0);
+  const steps = [
+    { i: Database, t: "Ingest", d: "Every signal — CRM, support, billing, ops — streams into one unified data brain.", color: "violet" },
+    { i: Brain, t: "Understand", d: "FlowDesk AI labels intents, links records, scores risk and opportunity in real time.", color: "indigo" },
+    { i: Workflow, t: "Decide", d: "Multi-model reasoning routes each task to the right policy, agent or human owner.", color: "violet" },
+    { i: Bot, t: "Act", d: "Autonomous agents draft replies, update records, trigger workflows and send approvals.", color: "emerald" },
+    { i: TrendingUp, t: "Grow", d: "Revenue lifts, churn drops, SLAs hit. Every action loops back to retrain the model.", color: "amber" },
+  ];
+  useEffect(() => {
+    const t = setInterval(() => setStep(s => (s + 1) % steps.length), 2200);
+    return () => clearInterval(t);
+  }, [steps.length]);
+
+  const sources = [
+    { i: MessageSquare, n: "WhatsApp" }, { i: Mail, n: "Email" }, { i: Receipt, n: "Stripe" },
+    { i: Users, n: "CRM" }, { i: FileSpreadsheet, n: "Sheets" }, { i: Kanban, n: "Tasks" },
+  ];
+  const outcomes = [
+    { i: TrendingUp, n: "+24% revenue", c: "emerald" },
+    { i: Clock, n: "−22 hrs/week", c: "violet" },
+    { i: Shield, n: "0 SLA breaches", c: "indigo" },
+    { i: DollarSign, n: "−62% cost", c: "amber" },
+  ];
+
+  return (
+    <section id="ai-flow" className="relative overflow-hidden py-32">
+      <div className="absolute inset-0 -z-10 bg-mesh opacity-60" />
+      <div className="absolute inset-0 -z-10 bg-dots opacity-20" />
+      <Container>
+        <SectionHeader
+          eyebrow="The AI Flow"
+          title={<>Watch AI actually <span className="text-gradient-violet">run your business.</span></>}
+          sub="Five live stages — from raw signal to revenue. This is the loop powering every FlowDesk customer, animated in real time."
+        />
+
+        {/* Stage chips */}
+        <div className="mt-14 flex flex-wrap justify-center gap-2">
+          {steps.map((s, i) => (
+            <button
+              key={s.t}
+              onClick={() => setStep(i)}
+              className={`flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold transition-all ${
+                step === i ? "glass-strong glow-violet text-foreground" : "glass text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <span className={`grid size-5 place-items-center rounded-full font-mono text-[10px] ${step === i ? "bg-violet text-white" : "bg-white/5"}`}>{i + 1}</span>
+              {s.t}
+            </button>
+          ))}
+        </div>
+
+        {/* Pipeline visual */}
+        <div className="mt-10 grid gap-6 lg:grid-cols-12">
+          {/* Sources */}
+          <div className="lg:col-span-3">
+            <div className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Your business signals</div>
+            <div className="mt-3 grid grid-cols-2 gap-2">
+              {sources.map((s, i) => (
+                <div key={i} className="glass flex items-center gap-2 rounded-xl p-3">
+                  <s.i className="size-4 text-violet" />
+                  <span className="truncate text-xs font-semibold">{s.n}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Animated brain */}
+          <div className="relative overflow-hidden rounded-3xl glass-strong p-6 lg:col-span-6" style={{ minHeight: 360 }}>
+            <NeuralViz />
+            {/* Flowing lines */}
+            <svg className="absolute inset-0 size-full" viewBox="0 0 100 60" preserveAspectRatio="none">
+              {[18, 30, 42].map((y, i) => (
+                <line key={i} x1="0" y1={y} x2="100" y2={y} stroke="oklch(0.7 0.22 295 / 0.25)" strokeWidth="0.15" strokeDasharray="2 2">
+                  <animate attributeName="stroke-dashoffset" from="0" to="-20" dur={`${2 + i * 0.4}s`} repeatCount="indefinite" />
+                </line>
+              ))}
+            </svg>
+            <div className="relative flex h-full flex-col">
+              <div className="flex items-center gap-2">
+                <span className="size-2 animate-pulse-glow rounded-full bg-emerald" />
+                <span className="font-mono text-[10px] uppercase tracking-wider text-emerald">AI active · stage {step + 1}/5</span>
+              </div>
+              <div className="mt-6 flex flex-1 flex-col items-center justify-center text-center">
+                <div className="grid size-20 place-items-center rounded-2xl glow-violet transition-all" style={{ background: "var(--gradient-primary)" }}>
+                  {(() => { const Icon = steps[step].i; return <Icon className="size-9 text-white" />; })()}
+                </div>
+                <div className="mt-5 font-display text-3xl font-bold text-gradient">{steps[step].t}</div>
+                <p className="mt-3 max-w-md text-sm text-muted-foreground">{steps[step].d}</p>
+              </div>
+              <div className="mt-4 flex gap-1.5">
+                {steps.map((_, i) => (
+                  <div key={i} className={`h-1 flex-1 overflow-hidden rounded-full ${step === i ? "bg-violet/30" : "bg-white/5"}`}>
+                    {step === i && <div className="h-full w-full origin-left animate-fade-in bg-violet" style={{ animation: "scale-in 2.2s linear" }} />}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Outcomes */}
+          <div className="lg:col-span-3">
+            <div className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Business outcomes</div>
+            <div className="mt-3 grid gap-2">
+              {outcomes.map((o, i) => (
+                <div key={i} className="glass flex items-center justify-between rounded-xl p-3">
+                  <div className="flex items-center gap-2">
+                    <o.i className={`size-4 text-${o.c}`} />
+                    <span className="text-xs font-semibold">{o.n}</span>
+                  </div>
+                  <ChevronRight className="size-3.5 text-muted-foreground" />
+                </div>
+              ))}
+            </div>
+            <Btn className="mt-4 w-full" onClick={() => scrollToId("contact")}>
+              See it on your data <ArrowRight className="size-4" />
+            </Btn>
+          </div>
+        </div>
+
+        {/* How AI grows your business */}
+        <div className="mt-16 grid gap-5 md:grid-cols-3">
+          {[
+            { i: TrendingUp, t: "Grows revenue", d: "AI identifies the next-best action for every deal, ticket and campaign — and runs it.", stat: "+24% pipeline" },
+            { i: Clock, t: "Saves time", d: "Autonomous agents handle handoffs, drafting, follow-ups and reporting around the clock.", stat: "22 hrs/wk back" },
+            { i: Brain, t: "Sharpens decisions", d: "Forecasts, anomalies and recommendations land in your inbox before issues become fires.", stat: "Decide in minutes" },
+          ].map((c, i) => (
+            <div key={i} className="rounded-3xl glass p-6 transition hover:glow-violet">
+              <div className="grid size-11 place-items-center rounded-xl bg-violet/15"><c.i className="size-5 text-violet" /></div>
+              <div className="mt-4 font-display text-lg font-bold">{c.t}</div>
+              <p className="mt-2 text-sm text-muted-foreground">{c.d}</p>
+              <div className="mt-4 inline-flex rounded-full glass-strong px-3 py-1 font-mono text-[11px] font-semibold text-foreground/90">{c.stat}</div>
+            </div>
+          ))}
+        </div>
+      </Container>
+    </section>
   );
 }
