@@ -1616,7 +1616,7 @@ function Contact() {
   const channels = [
     { i: Mail, t: "Email us", d: "hello@flowdesk.com", sub: "Replies within 4 business hours", c: "violet" },
     { i: MessageSquare, t: "Live chat", d: "Chat with the team", sub: "24/7 in English, Urdu, Hindi", c: "emerald" },
-    { i: Building2, t: "Enterprise sales", d: "sales@flowdesk.com", sub: "For teams of 50+", c: "indigo" },
+    { i: Building2, t: "Enterprise sales", d: "sales@flowdesk.com", sub: "For teams of 50+", c: "violet" },
     { i: Globe, t: "Global offices", d: "SF · London · Dubai · Karachi", sub: "Remote-first, distributed", c: "amber" },
   ];
 
@@ -1854,7 +1854,7 @@ function AIFlow() {
   const [step, setStep] = useState(0);
   const steps = [
     { i: Database, t: "Ingest", d: "Every signal — CRM, support, billing, ops — streams into one unified data brain.", color: "violet" },
-    { i: Brain, t: "Understand", d: "FlowDesk AI labels intents, links records, scores risk and opportunity in real time.", color: "indigo" },
+    { i: Brain, t: "Understand", d: "FlowDesk AI labels intents, links records, scores risk and opportunity in real time.", color: "violet" },
     { i: Workflow, t: "Decide", d: "Multi-model reasoning routes each task to the right policy, agent or human owner.", color: "violet" },
     { i: Bot, t: "Act", d: "Autonomous agents draft replies, update records, trigger workflows and send approvals.", color: "emerald" },
     { i: TrendingUp, t: "Grow", d: "Revenue lifts, churn drops, SLAs hit. Every action loops back to retrain the model.", color: "amber" },
@@ -1871,7 +1871,7 @@ function AIFlow() {
   const outcomes = [
     { i: TrendingUp, n: "+24% revenue", c: "emerald" },
     { i: Clock, n: "−22 hrs/week", c: "violet" },
-    { i: Shield, n: "0 SLA breaches", c: "indigo" },
+    { i: Shield, n: "0 SLA breaches", c: "violet" },
     { i: DollarSign, n: "−62% cost", c: "amber" },
   ];
 
